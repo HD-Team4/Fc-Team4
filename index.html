@@ -7,30 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
     <title>2차 조 소개 - KFA Motif</title>
 
-    <!-- ✅ 구글 폰트로 교체 (KFA CORS 차단 해결) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- 카카오맵 API -->
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e38cc3e09cc3f7a43d6600c59335019b&libraries=services" ></script>
-
+    <script>window.kakaoMapReady = false;</script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e38cc3e09cc3f7a43d6600c59335019b&libraries=services&autoload=false"></script>
+    
     <style>
         /* ── 기본 리셋 & 폰트 ── */
         *, html, body, h1, h2, h3, h4, h5, h6, form, fieldset, img {
             font-family: "Noto Sans KR", sans-serif;
             margin: 0; padding: 0; border: 0; box-sizing: border-box;
         }
-        body { font-size: 1em; color: #666; -webkit-text-size-adjust: none; }
-        div { display: block; unicode-bidi: isolate; }
+        body { font-size: 1em; color: #666; -webkit-text-size-adjust: none; overflow-x: hidden; }
 
         /* ── 헤더 ── */
-        #header, #pc_version { z-index: 9999 !important; }
         #header {
-            position: fixed; top: 0; left: 0; width: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
             background: #fff; border-bottom: 2px solid #002b5e;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
@@ -40,263 +36,94 @@
             padding: 0 20px; height: 80px;
         }
         .main_logo {
-            background: url('logo.png') no-repeat left center !important;
-            background-size: contain !important;
-            width: 160px; height: 60px; display: block;
+            background: url('logo.png') no-repeat left center;
+            background-size: contain; width: 160px; height: 60px; display: block;
         }
-        .pc_top_nav .menu {
-            display: flex; list-style: none; gap: 5px; margin: 0; padding: 0;
-        }
+        .pc_top_nav .menu { display: flex; list-style: none; gap: 5px; }
         .pc_top_nav .menu li a {
-            display: block; padding: 8px 14px;
-            font-size: 15px; font-weight: 600; color: #333;
-            text-decoration: none; border-radius: 6px;
-            transition: all 0.2s;
+            display: block; padding: 8px 14px; font-size: 15px; font-weight: 600; color: #333;
+            text-decoration: none; border-radius: 6px; transition: 0.2s;
         }
-        .pc_top_nav .menu li a:hover {
-            background: #002b5e; color: #fff;
-        }
+        .pc_top_nav .menu li a:hover { background: #002b5e; color: #fff; }
 
         /* ── 섹션 공통 ── */
-        .custom-section {
-            max-width: 1200px; width: 100%;
-            margin: 80px auto; padding: 0 20px;
+        .custom-section { max-width: 1200px; width: 100%; margin: 80px auto; padding: 0 20px; }
+        .kfa-title {
+            font-size: 32px; font-weight: 700; color: #111; margin-bottom: 30px; padding-bottom: 15px;
+            border-bottom: 2px solid #111; display: flex; align-items: center;
         }
-        .custom-section h2.kfa-title {
-            font-size: 32px; font-weight: 700; color: #111;
-            margin-bottom: 30px; padding-bottom: 15px;
-            border-bottom: 2px solid #111;
-            display: flex; align-items: center;
-        }
-        .custom-section h2.kfa-title::before {
-            content: ''; display: inline-block;
-            width: 6px; height: 32px;
-            background-color: #e31837; margin-right: 15px;
-        }
-        .custom-box {
-            background: #fdfdfd; border: 1px solid #e0e0e0;
-            padding: 50px; border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
+        .kfa-title::before { content: ''; width: 6px; height: 32px; background: #e31837; margin-right: 15px; }
+        .custom-box { background: #fdfdfd; border: 1px solid #e0e0e0; padding: 50px; border-radius: 12px; }
 
         /* ── 조원 소개 ── */
         .intro-grid { display: flex; gap: 25px; flex-wrap: wrap; }
         .team-member {
-            flex: 1; min-width: 220px; background: #fff;
-            border: 1px solid #ddd; text-align: center;
-            border-radius: 8px; overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;
+            flex: 1; min-width: 220px; background: #fff; border: 1px solid #ddd;
+            text-align: center; border-radius: 8px; overflow: hidden; transition: 0.3s; cursor: pointer;
         }
         .team-member:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
-        .team-member .member-img { width: 100%; height: auto; border-bottom: 4px solid #002b5e; display: block; }
+        .member-img { width: 100%; height: auto; border-bottom: 4px solid #002b5e; }
         .team-info { padding: 25px; }
-        .team-info h3 { font-size: 22px; color: #e31837; margin-bottom: 10px; font-weight: bold; }
-        .team-info p { font-size: 16px; color: #555; }
-
-        /* ── 버튼 ── */
-        .kfa-btn {
-            display: inline-flex; align-items: center;
-            background: #002b5e; color: #fff !important;
-            padding: 14px 28px; font-size: 15px; font-weight: bold;
-            border: none; cursor: pointer; border-radius: 6px;
-            transition: all 0.3s; text-decoration: none; gap: 6px;
-        }
-        .kfa-btn:hover { background: #e31837; box-shadow: 0 4px 10px rgba(227,24,55,0.3); }
+        .team-info h3 { font-size: 22px; color: #e31837; margin-bottom: 10px; }
 
         /* ── 단체샷 ── */
         .team-shot-card {
-            flex: 1; height: 300px; border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            overflow: hidden; cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            background-size: cover; background-position: center;
+            flex: 1; height: 300px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden; cursor: pointer; transition: 0.3s; background-size: cover; background-position: center;
             min-width: 180px;
         }
-        .team-shot-card:hover { transform: translateY(-10px); box-shadow: 0 12px 25px rgba(0,0,0,0.2); }
+        .team-shot-card:hover { transform: translateY(-10px); }
 
         /* ── 모달 ── */
         .modal {
-            display: none; position: fixed; z-index: 99999;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
+            display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); justify-content: center; align-items: center; opacity: 0; transition: 0.3s;
         }
         .modal.show { display: flex; opacity: 1; }
-        .modal-content {
-            max-width: 90%; max-height: 90%; border-radius: 8px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-            transform: scale(0.8); transition: transform 0.3s ease;
-        }
+        .modal-content { max-width: 90%; max-height: 90%; border-radius: 8px; transform: scale(0.8); transition: 0.3s; }
         .modal.show .modal-content { transform: scale(1); }
-        .close-modal {
-            position: absolute; top: 20px; right: 35px;
-            color: #fff; font-size: 50px; font-weight: bold;
-            cursor: pointer; transition: color 0.3s; line-height: 1;
-        }
-        .close-modal:hover { color: #e31837; }
+        .close-modal { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 50px; cursor: pointer; }
 
         /* ── 슬라이더 ── */
         .news_slide { width: 100%; overflow: hidden; position: relative; }
-        .slider-wrapper { display: flex; width: 100%; transition: transform 0.5s ease-in-out; }
-        .img_slide { position: relative; min-width: 100%; display: block; }
-        .img_slide img { width: 100%; height: auto; display: block; }
-        .img_slide:after {
-            content: ''; position: absolute; left: 0; bottom: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(transparent 60%, rgba(0,0,0,0.7) 100%);
-            pointer-events: none;
-        }
-        .slider-controls {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; align-items: center; gap: 20px; z-index: 10;
-        }
-        .slider-btn {
-            background: rgba(0,0,0,0.5); color: #fff; border: none;
-            width: 40px; height: 40px; border-radius: 50%; font-size: 18px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: background 0.3s;
-        }
-        .slider-btn:hover { background: #e31837; }
-        .slider-indicators { display: flex; gap: 10px; }
-        .dot {
-            width: 12px; height: 12px; background: rgba(255,255,255,0.5);
-            border-radius: 50%; cursor: pointer; transition: background 0.3s, transform 0.3s;
-        }
+        .slider-wrapper { display: flex; transition: transform 0.5s ease-in-out; }
+        .img_slide { min-width: 100%; position: relative; }
+        .img_slide img { width: 100%; display: block; }
+        .slider-controls { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 20px; z-index: 10; }
+        .slider-btn { background: rgba(0,0,0,0.5); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+        .dot { width: 12px; height: 12px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; }
         .dot.active { background: #e31837; transform: scale(1.2); }
 
-        /* ── 카카오맵 ── */
-        #kakao-map { position: relative; }
+        /* ── 카카오맵 스타일 ── */
         .place-card {
-            background: #fff; border: 1px solid #e0e0e0;
-            border-radius: 10px; padding: 14px 16px;
-            cursor: pointer; transition: all 0.25s; border-left: 4px solid #002b5e;
+            background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px;
+            cursor: pointer; transition: 0.25s; border-left: 4px solid #002b5e; margin-bottom: 10px;
         }
-        .place-card:hover { transform: translateX(4px); border-left-color: #e31837; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .place-card.active { border-left-color: #e31837; background: #fff8f9; }
-        .place-card .place-name { font-size: 15px; font-weight: bold; color: #111; margin-bottom: 4px; }
-        .place-card .place-addr { font-size: 13px; color: #888; margin-bottom: 6px; line-height: 1.4; }
-        .place-card .place-meta { display: flex; align-items: center; gap: 10px; }
-        .place-card .place-dist {
-            font-size: 13px; color: #002b5e; font-weight: 600;
-            background: #e8eef7; padding: 2px 8px; border-radius: 10px;
-        }
-        .place-card .navi-btn {
-            font-size: 12px; color: #fff !important; background: #e31837;
-            border: none; padding: 3px 10px; border-radius: 10px;
-            cursor: pointer; transition: background 0.2s;
-            text-decoration: none; display: inline-block;
-        }
-        .place-card .navi-btn:hover { background: #b00020; }
-        .kakao-custom-overlay {
-            background: #fff; border: 2px solid #002b5e;
-            border-radius: 10px; padding: 12px 16px; font-size: 14px;
-            font-family: "Noto Sans KR", sans-serif;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); min-width: 200px; position: relative;
-        }
-        .kakao-custom-overlay::after {
-            content: ''; position: absolute; bottom: -10px; left: 50%;
-            transform: translateX(-50%); border: 5px solid transparent;
-            border-top-color: #002b5e;
-        }
-        .kakao-custom-overlay .ov-name { font-weight: bold; color: #002b5e; font-size: 15px; margin-bottom: 5px; }
-        .kakao-custom-overlay .ov-dist { color: #e31837; font-size: 13px; margin-bottom: 8px; }
-        .kakao-custom-overlay .ov-navi {
-            display: block; text-align: center; background: #002b5e;
-            color: #fff !important; padding: 6px 12px; border-radius: 6px;
-            font-size: 13px; font-weight: bold; text-decoration: none; transition: background 0.2s;
-        }
-        .kakao-custom-overlay .ov-navi:hover { background: #e31837; }
-        .kakao-custom-overlay .ov-close {
-            position: absolute; top: 6px; right: 8px; cursor: pointer;
-            color: #999; font-size: 16px; background: none; border: none;
-        }
-        @keyframes pulse {
-            0%,100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.4); opacity: 0.6; }
-        }
+        .place-card:hover, .place-card.active { border-left-color: #e31837; background: #fff8f9; }
+        .place-name { font-weight: bold; color: #111; }
+        .place-dist { font-size: 13px; color: #002b5e; font-weight: 600; background: #e8eef7; padding: 2px 8px; border-radius: 10px; }
         .dot-loading { animation: pulse 1s infinite; background: #f5a623 !important; }
         .dot-success { background: #27ae60 !important; }
-        .dot-error   { background: #e31837 !important; }
+        .dot-error { background: #e31837 !important; }
+        @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.6; } }
 
         /* ── 포메이션 ── */
         .formation-container { display: flex; gap: 20px; flex-wrap: wrap; }
-        .player-bench {
-            width: 150px; background: #fdfdfd; border: 2px dashed #002b5e;
-            border-radius: 12px; padding: 15px; display: flex; flex-direction: column;
-            gap: 15px; min-height: 400px; align-items: center;
-        }
-        .player-bench h3 { font-size: 16px; color: #111; font-weight: bold; margin-bottom: 10px; }
-        .player-icon {
-            width: 60px; height: 60px; border-radius: 50%; background: #fff;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: grab;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: relative; transition: transform 0.2s; z-index: 10;
-        }
-        .player-icon:active { cursor: grabbing; }
-        .player-icon * { pointer-events: none; }
+        .player-bench { width: 150px; background: #fdfdfd; border: 2px dashed #002b5e; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 25px; min-height: 400px; align-items: center; }
+        .player-icon { width: 60px; height: 60px; border-radius: 50%; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: grab; position: relative; z-index: 10; }
         .player-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 2px solid #e31837; }
-        .player-icon span {
-            position: absolute; bottom: -20px; font-size: 12px; color: #111;
-            font-weight: bold; white-space: nowrap;
-            background: rgba(255,255,255,0.8); padding: 2px 5px; border-radius: 4px;
-        }
-        .football-pitch {
-            flex: 1; min-width: 300px; height: 400px; background: #2e7d32;
-            border: 3px solid #fff; border-radius: 10px; position: relative;
-            overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .football-pitch::before {
-            content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
-            border: 2px solid rgba(255,255,255,0.5); pointer-events: none;
-        }
-        .center-line {
-            position: absolute; top: 0; left: 50%; width: 2px; height: 100%;
-            background: rgba(255,255,255,0.5); pointer-events: none;
-        }
-        .center-circle {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-            width: 100px; height: 100px; border: 2px solid rgba(255,255,255,0.5);
-            border-radius: 50%; pointer-events: none;
-        }
-        .penalty-box {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            width: 60px; height: 140px; border: 2px solid rgba(255,255,255,0.5); pointer-events: none;
-        }
-        .penalty-box.left  { left: 5px;  border-left: none; }
-        .penalty-box.right { right: 5px; border-right: none; }
+        .player-icon span { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; white-space: nowrap; background: rgba(255,255,255,0.8); padding: 2px 5px; border-radius: 4px; }
+        .football-pitch { flex: 1; min-width: 300px; height: 400px; background: #2e7d32; border: 3px solid #fff; border-radius: 10px; position: relative; }
 
-        /* ── 방명록 ── */
-        .kfa-input {
-            padding: 14px 20px; font-size: 16px; border: 2px solid #ddd;
-            border-radius: 6px; width: 350px; margin-right: 15px;
-            outline: none; transition: border-color 0.3s; color: #333;
-        }
-        .kfa-input:focus { border-color: #002b5e; }
-
-        /* ── 미디어 ── */
-        .media-grid { display: flex; gap: 40px; flex-wrap: wrap; }
-        .media-box {
-            flex: 1; min-width: 300px; background: #fff; border: 1px solid #ddd;
-            padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-        .media-box h3 { font-size: 20px; margin-bottom: 20px; color: #111; font-weight: bold; }
-        video, audio { width: 100%; border-radius: 8px; outline: none; }
-
-        /* ── 플로팅 BGM ── */
-        #floating-audio {
-            position: fixed; bottom: 20px; right: 20px; z-index: 9999;
-            background: rgba(255,255,255,0.95); padding: 10px 15px;
-            border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: flex; align-items: center; gap: 10px; border: 2px solid #002b5e;
-        }
-        #floating-audio audio { width: 220px; height: 30px; outline: none; }
+        /* ── 기타 ── */
+        .kfa-btn { background: #002b5e; color: #fff !important; padding: 12px 24px; font-weight: bold; border-radius: 6px; cursor: pointer; text-decoration: none; border:none; display: inline-flex; align-items: center; gap: 8px; }
+        .kfa-btn:hover { background: #e31837; }
+        #floating-audio { position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: #fff; padding: 10px; border-radius: 50px; border: 2px solid #002b5e; display: flex; align-items: center; gap: 10px; }
     </style>
 </head>
 
 <body>
 
-    <!-- ── 헤더 ── -->
     <div id="header">
         <header id="pc_version">
             <div class="top">
@@ -306,9 +133,8 @@
                         <li><a href="#team-shots">단체샷</a></li>
                         <li><a href="#intro">조 소개</a></li>
                         <li><a href="#geolocation">위치 정보</a></li>
-                        <li><a href="#drag-drop">드래그 앤 드롭</a></li>
-                        <li><a href="#web-storage">로컬 저장소</a></li>
-                        <li><a href="#media">미디어</a></li>
+                        <li><a href="#drag-drop">포메이션</a></li>
+                        <li><a href="#web-storage">방명록</a></li>
                     </ul>
                 </nav>
             </div>
@@ -316,409 +142,235 @@
     </div>
 
     <div id="contents" style="padding-top: 80px;">
-
-        <!-- 메인 슬라이더 -->
-        <div id="main_contents">
-            <div class="news_slide">
-                <div class="slider-wrapper">
-                    <div class="img_slide"><img src="main.png" alt="메인 배너 1"></div>
-                    <div class="img_slide"><img src="main2.png" alt="메인 배너 2"></div>
+        <div class="news_slide">
+            <div class="slider-wrapper" id="sliderWrapper">
+                <div class="img_slide"><img src="main.png" alt="1"></div>
+                <div class="img_slide"><img src="main2.png" alt="2"></div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-btn" onclick="moveSlide(-1)">&#10094;</button>
+                <div class="slider-indicators">
+                    <span class="dot active" onclick="currentSlide(0)"></span>
+                    <span class="dot" onclick="currentSlide(1)"></span>
                 </div>
-                <div class="slider-controls">
-                    <button class="slider-btn" onclick="moveSlide(-1)">&#10094;</button>
-                    <div class="slider-indicators">
-                        <span class="dot active" onclick="currentSlide(0)"></span>
-                        <span class="dot" onclick="currentSlide(1)"></span>
-                    </div>
-                    <button class="slider-btn" onclick="moveSlide(1)">&#10095;</button>
-                </div>
+                <button class="slider-btn" onclick="moveSlide(1)">&#10095;</button>
             </div>
         </div>
 
-        <!-- 1. 단체샷 -->
         <div id="team-shots" class="custom-section">
             <h2 class="kfa-title">우리 조 단체샷</h2>
             <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
-                <!-- ✅ 파일명 소문자로 수정 -->
                 <div class="team-shot-card" style="background-image:url('shoot1.jpeg')" onclick="openModal('shoot1.jpeg')"></div>
                 <div class="team-shot-card" style="background-image:url('shoot2.jpeg')" onclick="openModal('shoot2.jpeg')"></div>
                 <div class="team-shot-card" style="background-image:url('shoot3.jpeg')" onclick="openModal('shoot3.jpeg')"></div>
-                <div class="team-shot-card" style="background-image:url('shoot4.png')"  onclick="openModal('shoot4.png')"></div>
+                <div class="team-shot-card" style="background-image:url('shoot4.png')" onclick="openModal('shoot4.png')"></div>
             </div>
         </div>
 
-        <!-- 이미지 모달 -->
-        <div id="imageModal" class="modal" onclick="closeModal(event)">
-            <span class="close-modal" onclick="closeModal(event)">&times;</span>
-            <img class="modal-content" id="modalImage">
-        </div>
-
-        <!-- 2. 조 소개 -->
-        <div id="intro" class="custom-section">
-            <h2 class="kfa-title">조원 소개</h2>
-            <div class="intro-grid">
-                <div class="team-member" onclick="window.open('#','_blank')">
-                    <img src="member1.png" alt="안정민" class="member-img">
-                    <div class="team-info"><h3>안정민</h3><p>No.1 팀장</p></div>
-                </div>
-                <div class="team-member" onclick="window.open('https://chaeyeonkong.github.io/','_blank')">
-                    <img src="member2.png" alt="공채연" class="member-img">
-                    <div class="team-info"><h3>공채연</h3><p>No.7 팀원</p></div>
-                </div>
-                <div class="team-member" onclick="window.open('https://hongjunpyo0222.github.io/','_blank')">
-                    <img src="member3.png" alt="홍준표" class="member-img">
-                    <div class="team-info"><h3>홍준표</h3><p>No.2 팀원</p></div>
-                </div>
-                <div class="team-member" onclick="window.open('https://ui-chan.github.io/WebChan/','_blank')">
-                    <img src="member4.png" alt="안의찬" class="member-img">
-                    <div class="team-info"><h3>안의찬</h3><p>No.11 팀원</p></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. 카카오맵 -->
         <div id="geolocation" class="custom-section">
-            <h2 class="kfa-title">위치 정보 &amp; 주변 풋살장 찾기</h2>
-            <div class="custom-box" style="padding:30px;">
-
-                <div style="display:flex; align-items:center; justify-content:space-between;
-                    background:#f0f4ff; border:1px solid #c7d4f0; border-radius:10px;
-                    padding:15px 25px; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div id="status-dot" style="width:13px;height:13px;border-radius:50%;background:#ccc;flex-shrink:0;"></div>
-                        <span id="status-text" style="font-size:16px;color:#333;font-weight:500;">버튼을 눌러 내 위치를 확인하세요</span>
-                    </div>
-                    <div id="found-badge" style="display:none;background:#e31837;color:#fff;padding:6px 20px;border-radius:20px;font-size:15px;font-weight:bold;">
-                        🏟️ 근처 풋살장 <span id="found-count">0</span>개 발견!
-                    </div>
-                </div>
-
-                <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
-                    <button class="kfa-btn" id="locate-btn" onclick="initKakaoMap()">
-                        📍 내 위치 확인 &amp; 풋살장 찾기
-                    </button>
-                    <button class="kfa-btn" id="reset-btn" onclick="resetMap()" style="background:#777;display:none;">
-                        🔄 초기화
-                    </button>
-                </div>
-
-                <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;">
-                    <div style="flex:2;min-width:280px;">
-                        <div id="kakao-map" style="width:100%;height:420px;border-radius:12px;border:2px solid #ddd;background:#eee;overflow:hidden;position:relative;">
-                            <div id="map-placeholder" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#999;font-size:16px;z-index:1;">
-                                <div style="font-size:48px;margin-bottom:10px;">🗺️</div>
-                                <div>버튼을 눌러 지도를 불러오세요</div>
-                            </div>
-                        </div>
-                        <div id="geo-result" style="margin-top:10px;font-size:14px;color:#888;text-align:right;"></div>
-                    </div>
-                    <div style="flex:1;min-width:240px;max-height:430px;overflow-y:auto;">
-                        <div id="place-list-header" style="font-size:17px;font-weight:bold;color:#002b5e;margin-bottom:12px;display:none;padding:0 2px;">
-                            📋 주변 풋살장 목록
-                        </div>
-                        <div id="place-list" style="display:flex;flex-direction:column;gap:10px;">
-                            <div style="color:#aaa;font-size:15px;text-align:center;padding:60px 0;line-height:1.8;">
-                                📍<br>위치 검색 후<br>목록이 표시됩니다
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 4. Drag & Drop -->
-        <div id="drag-drop" class="custom-section">
-            <h2 class="kfa-title">축구 포메이션 (Drag &amp; Drop API)</h2>
-            <p style="font-size:16px;color:#555;margin-bottom:20px;">선수들을 드래그하여 경기장 위 원하는 위치에 배치해보세요!</p>
-            <div class="formation-container">
-                <div class="player-bench" ondrop="dropPlayerBench(event)" ondragover="allowDrop(event)">
-                    <h3>대기 선수</h3>
-                    <div class="player-icon" draggable="true" ondragstart="dragPlayer(event)" id="player1">
-                        <img src="member1.png" alt="안정민"><span>안정민</span>
-                    </div>
-                    <div class="player-icon" draggable="true" ondragstart="dragPlayer(event)" id="player2">
-                        <img src="member2.png" alt="공채연"><span>공채연</span>
-                    </div>
-                    <div class="player-icon" draggable="true" ondragstart="dragPlayer(event)" id="player3">
-                        <img src="member3.png" alt="홍준표"><span>홍준표</span>
-                    </div>
-                    <div class="player-icon" draggable="true" ondragstart="dragPlayer(event)" id="player4">
-                        <img src="member4.png" alt="안의찬"><span>안의찬</span>
-                    </div>
-                </div>
-                <div class="football-pitch" ondrop="dropPlayerOnPitch(event)" ondragover="allowDrop(event)">
-                    <div class="center-circle"></div>
-                    <div class="center-line"></div>
-                    <div class="penalty-box left"></div>
-                    <div class="penalty-box right"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 5. Web Storage -->
-        <div id="web-storage" class="custom-section">
-            <h2 class="kfa-title">방명록 (Web Storage API)</h2>
+            <h2 class="kfa-title">주변 풋살장 찾기</h2>
             <div class="custom-box">
-                <p style="font-size:18px;color:#555;margin-bottom:20px;">방문자 이름을 입력해 두시면 로컬 스토리지에 저장되어 브라우저가 기억합니다.</p>
-                <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;">
-                    <input type="text" id="username" class="kfa-input" placeholder="이름을 입력하세요">
-                    <button class="kfa-btn" onclick="saveName()">저장하기</button>
-                    <button class="kfa-btn" onclick="clearName()" style="background:#777;">초기화</button>
+                <div style="display:flex; align-items:center; gap:12px; background:#f0f4ff; padding:15px; border-radius:10px; margin-bottom:20px;">
+                    <div id="status-dot" style="width:13px;height:13px;border-radius:50%;background:#ccc;"></div>
+                    <span id="status-text">버튼을 눌러 내 위치를 확인하세요</span>
                 </div>
-                <div id="greeting-msg" style="margin-top:30px;font-size:24px;color:#e31837;font-weight:bold;"></div>
-            </div>
-        </div>
-
-        <!-- 6. 미디어 -->
-        <div id="media" class="custom-section">
-            <h2 class="kfa-title">미디어 (Audio &amp; Video API)</h2>
-            <div class="media-grid">
-                <div class="media-box">
-                    <h3>홍보 영상</h3>
-                    <div style="background:#222;height:260px;display:flex;align-items:center;justify-content:center;color:#aaa;margin-bottom:15px;border-radius:8px;">Video Placeholder</div>
-                    <video id="media-video" controls>
-                        <source src="#" type="video/mp4">
-                        브라우저가 비디오 태그를 지원하지 않습니다.
-                    </video>
+                <div style="display:flex; gap:10px; margin-bottom:20px;">
+                    <button class="kfa-btn" id="locate-btn" onclick="initKakaoMap()">📍 내 위치 확인 & 풋살장 찾기</button>
+                    <button class="kfa-btn" id="reset-btn" onclick="resetMap()" style="background:#777; display:none;">🔄 초기화</button>
                 </div>
-                <div class="media-box">
-                    <h3>배경 음악</h3>
-                    <div style="background:#f5f5f5;height:260px;display:flex;align-items:center;justify-content:center;color:#aaa;margin-bottom:15px;border-radius:8px;border:1px solid #eee;">Audio Cover</div>
-                    <audio id="media-audio" controls>
-                        <source src="ssg_song.mp3" type="audio/mpeg">
-                        브라우저가 오디오 태그를 지원하지 않습니다.
-                    </audio>
+                <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                    <div id="kakao-map" style="flex:2; min-width:300px; height:400px; border-radius:12px; border:1px solid #ddd; position:relative; background:#eee;">
+                        <div id="map-placeholder" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#999;">
+                            <div style="font-size:40px;">🗺️</div>
+                            <p>지도를 불러오려면 버튼을 클릭하세요</p>
+                        </div>
+                    </div>
+                    <div id="place-list" style="flex:1; min-width:250px; max-height:400px; overflow-y:auto;"></div>
                 </div>
             </div>
         </div>
 
+        <div id="drag-drop" class="custom-section">
+            <h2 class="kfa-title">포메이션 설정</h2>
+            <div class="formation-container">
+                <div class="player-bench" ondrop="dropPlayer(event)" ondragover="allowDrop(event)">
+                    <div class="player-icon" draggable="true" ondragstart="drag(event)" id="p1"><img src="member1.png"><span>안정민</span></div>
+                    <div class="player-icon" draggable="true" ondragstart="drag(event)" id="p2"><img src="member2.png"><span>공채연</span></div>
+                    <div class="player-icon" draggable="true" ondragstart="drag(event)" id="p3"><img src="member3.png"><span>홍준표</span></div>
+                    <div class="player-icon" draggable="true" ondragstart="drag(event)" id="p4"><img src="member4.png"><span>안의찬</span></div>
+                </div>
+                <div class="football-pitch" ondrop="dropPlayer(event)" ondragover="allowDrop(event)"></div>
+            </div>
+        </div>
+
+        <div id="web-storage" class="custom-section">
+            <h2 class="kfa-title">방명록</h2>
+            <div class="custom-box">
+                <input type="text" id="username" placeholder="이름을 입력하세요" style="padding:10px; border:1px solid #ddd; border-radius:4px; width:200px;">
+                <button class="kfa-btn" onclick="saveName()">저장</button>
+                <button class="kfa-btn" onclick="clearName()" style="background:#777;">삭제</button>
+                <div id="greeting-msg" style="margin-top:20px; font-size:20px; font-weight:bold; color:#e31837;"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- 푸터 -->
-    <footer style="background:#222;padding:60px 0;text-align:center;margin-top:80px;border-top:5px solid #e31837;">
-        <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:20px;">
-            <h2 style="color:#fff;font-size:24px;font-weight:bold;">Team Logo</h2>
-            <p style="font-size:15px;">
-                <a href="#" style="color:#ccc;margin:0 15px;text-decoration:none;">이용약관</a> |
-                <a href="#" style="color:#ccc;margin:0 15px;text-decoration:none;">개인정보처리방침</a> |
-                <a href="#" style="color:#ccc;margin:0 15px;text-decoration:none;">이메일무단수집거부</a>
-            </p>
-            <p style="font-size:14px;color:#aaa;">Copyright ⓒ 2차 조. All Rights Reserved. Designed by KFA Motif.</p>
-        </div>
-    </footer>
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
 
-    <!-- 플로팅 BGM -->
     <div id="floating-audio">
-        <strong style="font-size:14px;color:#002b5e;">BGM</strong>
-        <audio id="bgm" controls autoplay loop>
-            <source src="Song.mp3" type="audio/mpeg">
-        </audio>
+        <strong>BGM</strong>
+        <audio id="bgm" controls loop><source src="Song.mp3" type="audio/mpeg"></audio>
     </div>
 
     <script>
-    /* ── 카카오맵 ── */
-    let kakaoMap = null, myMarker = null, placeMarkers = [], openOverlay = null;
+        /* ✅ 수정 2: kakao.maps.load 추가 (스크립트 최상단) */
+        kakao.maps.load(function() {
+            window.kakaoMapReady = true;
+            console.log("Kakao Map API is ready.");
+        });
 
-    function calcDistance(lat1,lng1,lat2,lng2){
-        const R=6371000, dLat=(lat2-lat1)*Math.PI/180, dLng=(lng2-lng1)*Math.PI/180;
-        const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
-        const d=R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-        return d<1000?Math.round(d)+'m':(d/1000).toFixed(1)+'km';
-    }
-    function setStatus(type,text){
-        const dot=document.getElementById('status-dot'), span=document.getElementById('status-text');
-        dot.className='';
-        if(type==='loading') dot.classList.add('dot-loading');
-        else if(type==='success') dot.classList.add('dot-success');
-        else if(type==='error') dot.classList.add('dot-error');
-        span.textContent=text;
-    }
-    function initKakaoMap(){
-        const btn=document.getElementById('locate-btn');
-        btn.disabled=true; btn.textContent='⏳ 위치 확인 중...';
-        setStatus('loading','현재 위치를 가져오는 중입니다...');
-        if(!navigator.geolocation){
-            setStatus('error','Geolocation을 지원하지 않는 브라우저입니다.');
-            btn.disabled=false; btn.innerHTML='📍 내 위치 확인 &amp; 풋살장 찾기'; return;
+        /* ── 슬라이더 제어 ── */
+        let currentIdx = 0;
+        function moveSlide(n) { showSlides(currentIdx += n); }
+        function currentSlide(n) { showSlides(currentIdx = n); }
+        function showSlides(n) {
+            const slides = document.querySelectorAll('.img_slide');
+            const dots = document.querySelectorAll('.dot');
+            if (n >= slides.length) currentIdx = 0;
+            if (n < 0) currentIdx = slides.length - 1;
+            document.getElementById('sliderWrapper').style.transform = `translateX(-${currentIdx * 100}%)`;
+            dots.forEach(d => d.classList.remove('active'));
+            dots[currentIdx].classList.add('active');
         }
-        navigator.geolocation.getCurrentPosition(function(pos){
-            const myLat=pos.coords.latitude, myLng=pos.coords.longitude;
-            document.getElementById('geo-result').textContent='📌 위도: '+myLat.toFixed(5)+'  경도: '+myLng.toFixed(5);
-            document.getElementById('map-placeholder').style.display='none';
-            const container=document.getElementById('kakao-map');
-            kakaoMap=new kakao.maps.Map(container,{center:new kakao.maps.LatLng(myLat,myLng),level:5});
-            const myPos=new kakao.maps.LatLng(myLat,myLng);
-            myMarker=new kakao.maps.Marker({map:kakaoMap,position:myPos,title:'내 위치',
-                image:new kakao.maps.MarkerImage('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',new kakao.maps.Size(24,35))});
-            new kakao.maps.InfoWindow({content:'<div style="padding:6px 10px;font-size:13px;font-weight:bold;color:#002b5e;font-family:Noto Sans KR,sans-serif;">📍 내 위치</div>'}).open(kakaoMap,myMarker);
-            setStatus('loading','주변 풋살장을 검색하고 있습니다...');
-            searchNearbyFutsals(myLat,myLng);
-        },function(){
-            setStatus('error','위치 권한이 거부되었습니다. 브라우저 설정에서 위치 허용 후 다시 시도해주세요.');
-            btn.disabled=false; btn.innerHTML='📍 내 위치 확인 &amp; 풋살장 찾기';
-        },{enableHighAccuracy:true,timeout:10000});
-    }
-    function searchNearbyFutsals(myLat,myLng){
-        const ps=new kakao.maps.services.Places();
-        const keywords=['풋살장','축구장'];
-        let allPlaces=[], completed=0;
-        keywords.forEach(function(kw){
-            ps.keywordSearch(kw,function(data,status){
-                if(status===kakao.maps.services.Status.OK) allPlaces=allPlaces.concat(data);
-                if(++completed===keywords.length){
-                    const seen=new Set();
-                    const unique=allPlaces.filter(p=>!seen.has(p.id)&&seen.add(p.id));
-                    unique.sort((a,b)=>parseInt(a.distance)-parseInt(b.distance));
-                    renderPlaces(unique.slice(0,8),myLat,myLng);
+
+        /* ── 모달 ── */
+        function openModal(src) {
+            const m = document.getElementById('imageModal');
+            document.getElementById('modalImage').src = src;
+            m.style.display = 'flex';
+            setTimeout(() => m.classList.add('show'), 10);
+        }
+        function closeModal() {
+            const m = document.getElementById('imageModal');
+            m.classList.remove('show');
+            setTimeout(() => m.style.display = 'none', 300);
+        }
+
+        /* ── 카카오맵 ── */
+        let map = null, myMarker = null, markers = [];
+
+        function setStatus(type, text) {
+            const dot = document.getElementById('status-dot');
+            dot.className = '';
+            dot.classList.add('dot-' + type);
+            document.getElementById('status-text').textContent = text;
+        }
+
+        /* ✅ 수정 3: initKakaoMap 시작 부분 체크 추가 */
+        function initKakaoMap() {
+            if (typeof kakao === 'undefined' || !kakao.maps) {
+                alert('지도 API가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.');
+                return;
+            }
+            
+            const btn = document.getElementById('locate-btn');
+            btn.disabled = true;
+            setStatus('loading', '내 위치를 찾는 중...');
+
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                const lat = pos.coords.latitude, lng = pos.coords.longitude;
+                const loc = new kakao.maps.LatLng(lat, lng);
+
+                document.getElementById('map-placeholder').style.display = 'none';
+                map = new kakao.maps.Map(document.getElementById('kakao-map'), { center: loc, level: 4 });
+                
+                myMarker = new kakao.maps.Marker({ 
+                    map: map, position: loc, 
+                    image: new kakao.maps.MarkerImage('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', new kakao.maps.Size(24, 35))
+                });
+
+                searchPlaces(loc);
+                document.getElementById('reset-btn').style.display = 'inline-flex';
+                btn.disabled = false;
+            }, function() {
+                alert('위치 권한을 허용해주세요.');
+                btn.disabled = false;
+                setStatus('error', '위치 정보를 가져올 수 없습니다.');
+            });
+        }
+
+        function searchPlaces(loc) {
+            const ps = new kakao.maps.services.Places();
+            ps.keywordSearch('풋살장', (data, status) => {
+                if (status === kakao.maps.services.Status.OK) {
+                    displayPlaces(data);
+                    setStatus('success', `주변 풋살장 ${data.length}개를 찾았습니다.`);
                 }
-            },{location:new kakao.maps.LatLng(myLat,myLng),radius:5000,size:6,sort:kakao.maps.services.SortBy.DISTANCE});
-        });
-    }
-    function renderPlaces(places,myLat,myLng){
-        const btn=document.getElementById('locate-btn');
-        btn.disabled=false; btn.innerHTML='📍 내 위치 확인 &amp; 풋살장 찾기';
-        document.getElementById('reset-btn').style.display='inline-flex';
-        if(places.length===0){
-            setStatus('error','반경 5km 이내 풋살장/축구장을 찾지 못했습니다.');
-            document.getElementById('place-list').innerHTML='<div style="color:#aaa;text-align:center;padding:40px 0;">검색 결과가 없습니다.</div>'; return;
+            }, { location: loc, radius: 5000 });
         }
-        setStatus('success','위치 확인 완료! 주변 풋살장을 지도에 표시했습니다.');
-        document.getElementById('found-count').textContent=places.length;
-        document.getElementById('found-badge').style.display='block';
-        document.getElementById('place-list-header').style.display='block';
-        const listEl=document.getElementById('place-list'); listEl.innerHTML='';
-        const bounds=new kakao.maps.LatLngBounds();
-        bounds.extend(new kakao.maps.LatLng(myLat,myLng));
-        places.forEach(function(place,idx){
-            const lat=parseFloat(place.y), lng=parseFloat(place.x);
-            const pos=new kakao.maps.LatLng(lat,lng);
-            const dist=calcDistance(myLat,myLng,lat,lng);
-            bounds.extend(pos);
-            const marker=new kakao.maps.Marker({map:kakaoMap,position:pos,title:place.place_name});
-            placeMarkers.push(marker);
-            const naviUrl='https://map.kakao.com/link/to/'+encodeURIComponent(place.place_name)+','+lat+','+lng;
-            const oc=document.createElement('div'); oc.className='kakao-custom-overlay';
-            oc.innerHTML='<button class="ov-close" onclick="closeOverlay()">✕</button>'
-                +'<div class="ov-name">'+(idx+1)+'. '+place.place_name+'</div>'
-                +'<div class="ov-dist">📏 내 위치에서 '+dist+'</div>'
-                +'<div style="font-size:12px;color:#999;margin-bottom:8px;">'+(place.road_address_name||place.address_name)+'</div>'
-                +'<a class="ov-navi" href="'+naviUrl+'" target="_blank">🚗 카카오맵으로 길찾기</a>';
-            const overlay=new kakao.maps.CustomOverlay({content:oc,position:pos,yAnchor:1.4,zIndex:3});
-            kakao.maps.event.addListener(marker,'click',function(){
-                closeOverlay(); overlay.setMap(kakaoMap); openOverlay=overlay; kakaoMap.panTo(pos);
-                document.querySelectorAll('.place-card').forEach(c=>c.classList.remove('active'));
-                const card=document.getElementById('pcard-'+idx);
-                if(card){card.classList.add('active');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
+
+        function displayPlaces(places) {
+            const listEl = document.getElementById('place-list');
+            listEl.innerHTML = '';
+            markers.forEach(m => m.setMap(null));
+            markers = [];
+
+            places.forEach((p, i) => {
+                const pos = new kakao.maps.LatLng(p.y, p.x);
+                const marker = new kakao.maps.Marker({ map: map, position: pos });
+                markers.push(marker);
+
+                const item = document.createElement('div');
+                item.className = 'place-card';
+                item.innerHTML = `<div class="place-name">${p.place_name}</div><div style="font-size:12px;">${p.address_name}</div>`;
+                item.onclick = () => map.panTo(pos);
+                listEl.appendChild(item);
             });
-            const card=document.createElement('div'); card.className='place-card'; card.id='pcard-'+idx;
-            card.innerHTML='<div class="place-name">'+(idx+1)+'. '+place.place_name+'</div>'
-                +'<div class="place-addr">'+(place.road_address_name||place.address_name)+'</div>'
-                +'<div class="place-meta"><span class="place-dist">📏 '+dist+'</span>'
-                +'<a class="navi-btn" href="'+naviUrl+'" target="_blank">🚗 길찾기</a></div>';
-            card.addEventListener('click',function(){
-                closeOverlay(); overlay.setMap(kakaoMap); openOverlay=overlay; kakaoMap.panTo(pos);
-                document.querySelectorAll('.place-card').forEach(c=>c.classList.remove('active'));
-                card.classList.add('active');
-            });
-            listEl.appendChild(card);
-        });
-        kakaoMap.setBounds(bounds);
-    }
-    function closeOverlay(){
-        if(openOverlay){openOverlay.setMap(null);openOverlay=null;}
-        document.querySelectorAll('.place-card').forEach(c=>c.classList.remove('active'));
-    }
-    function resetMap(){
-        placeMarkers.forEach(m=>m.setMap(null)); placeMarkers=[]; closeOverlay();
-        if(myMarker){myMarker.setMap(null);myMarker=null;} kakaoMap=null;
-        document.getElementById('map-placeholder').style.display='flex';
-        document.getElementById('found-badge').style.display='none';
-        document.getElementById('place-list-header').style.display='none';
-        document.getElementById('geo-result').textContent='';
-        document.getElementById('place-list').innerHTML='<div style="color:#aaa;font-size:15px;text-align:center;padding:60px 0;line-height:1.8;">📍<br>위치 검색 후<br>목록이 표시됩니다</div>';
-        document.getElementById('reset-btn').style.display='none';
-        document.getElementById('locate-btn').disabled=false;
-        document.getElementById('locate-btn').innerHTML='📍 내 위치 확인 &amp; 풋살장 찾기';
-        setStatus('','버튼을 눌러 내 위치를 확인하세요');
-        const dot=document.getElementById('status-dot'); dot.className=''; dot.style.background='#ccc';
-    }
-
-    /* ── Drag & Drop ── */
-    let draggedOffsetX=0, draggedOffsetY=0;
-    function allowDrop(ev){ev.preventDefault();}
-    function dragPlayer(ev){
-        const p=ev.target.closest('.player-icon'); if(!p)return;
-        ev.dataTransfer.setData("text",p.id);
-        const r=p.getBoundingClientRect(); draggedOffsetX=ev.clientX-r.left; draggedOffsetY=ev.clientY-r.top;
-    }
-    function dropPlayerBench(ev){
-        ev.preventDefault(); const el=document.getElementById(ev.dataTransfer.getData("text")); if(!el)return;
-        el.style.position='relative'; el.style.left='0'; el.style.top='0'; ev.currentTarget.appendChild(el);
-    }
-    function dropPlayerOnPitch(ev){
-        ev.preventDefault(); const el=document.getElementById(ev.dataTransfer.getData("text")); if(!el)return;
-        const r=ev.currentTarget.getBoundingClientRect();
-        el.style.position='absolute';
-        el.style.left=(ev.clientX-r.left-draggedOffsetX)+'px';
-        el.style.top=(ev.clientY-r.top-draggedOffsetY)+'px';
-        ev.currentTarget.appendChild(el);
-    }
-
-    /* ── Web Storage ── */
-    function saveName(){
-        const n=document.getElementById("username").value; if(!n.trim()){alert("이름을 입력해주세요.");return;}
-        localStorage.setItem("teamVisitorName",n); displayGreeting();
-    }
-    function clearName(){localStorage.removeItem("teamVisitorName");document.getElementById("username").value="";displayGreeting();}
-    function displayGreeting(){
-        const s=localStorage.getItem("teamVisitorName");
-        document.getElementById("greeting-msg").innerText=s?'환영합니다, '+s+'님! 홈페이지 방문을 진심으로 환영합니다.':'';
-    }
-
-    /* ── 슬라이더 ── */
-    let slideIndex=0, slideTimer;
-    function initSlider(){showSlide(0);startSlideTimer();}
-    function moveSlide(n){showSlide(slideIndex+n);resetSlideTimer();}
-    function currentSlide(n){showSlide(n);resetSlideTimer();}
-    function showSlide(n){
-        const w=document.querySelector('.slider-wrapper'), s=document.querySelectorAll('.img_slide'), d=document.querySelectorAll('.dot');
-        if(!w||!s.length)return;
-        if(n>=s.length)slideIndex=0; else if(n<0)slideIndex=s.length-1; else slideIndex=n;
-        w.style.transform='translateX(-'+(slideIndex*100)+'%)';
-        d.forEach(x=>x.classList.remove('active'));
-        if(d[slideIndex])d[slideIndex].classList.add('active');
-    }
-    function startSlideTimer(){slideTimer=setInterval(()=>moveSlide(1),5000);}
-    function resetSlideTimer(){clearInterval(slideTimer);startSlideTimer();}
-
-    /* ── 모달 ── */
-    function openModal(src){
-        const m=document.getElementById("imageModal"); document.getElementById("modalImage").src=src;
-        m.style.display="flex"; setTimeout(()=>m.classList.add("show"),10);
-    }
-    function closeModal(e){
-        const m=document.getElementById("imageModal");
-        if(e.target===m||String(e.target.className).includes("close-modal")){
-            m.classList.remove("show");
-            setTimeout(()=>{m.style.display="none";document.getElementById("modalImage").src="";},300);
         }
-    }
 
-    /* ── 초기화 ── */
-    window.onload=function(){
-        displayGreeting(); initSlider();
-        var bgm=document.getElementById('bgm'); if(bgm)bgm.play().catch(()=>{});
-    };
-    document.body.addEventListener('click',function(){
-        var bgm=document.getElementById('bgm'); if(bgm&&bgm.paused)bgm.play().catch(()=>{});
-    },{once:true});
-    document.addEventListener("DOMContentLoaded",function(){
-        var bgm=document.getElementById('bgm');
-        ['media-video','media-audio'].forEach(id=>{
-            var el=document.getElementById(id);
-            if(el)el.addEventListener('play',()=>{if(bgm&&!bgm.paused)bgm.pause();});
-        });
-    });
+        function resetMap() {
+            location.reload();
+        }
+
+        /* ── 드래그 앤 드롭 ── */
+        function allowDrop(e) { e.preventDefault(); }
+        function drag(e) { e.dataTransfer.setData("text", e.target.id); }
+        function dropPlayer(e) {
+            e.preventDefault();
+            const data = e.dataTransfer.getData("text");
+            const player = document.getElementById(data);
+            
+            if (e.target.classList.contains('football-pitch')) {
+                const rect = e.target.getBoundingClientRect();
+                player.style.position = 'absolute';
+                player.style.left = (e.clientX - rect.left - 30) + 'px';
+                player.style.top = (e.clientY - rect.top - 30) + 'px';
+                e.target.appendChild(player);
+            } else if (e.target.classList.contains('player-bench')) {
+                player.style.position = 'relative';
+                player.style.left = '0'; player.style.top = '0';
+                e.target.appendChild(player);
+            }
+        }
+
+        /* ── 로컬 스토리지 ── */
+        function saveName() {
+            const name = document.getElementById('username').value;
+            if(!name) return alert('이름을 입력하세요.');
+            localStorage.setItem('kfa_user', name);
+            loadName();
+        }
+        function clearName() {
+            localStorage.removeItem('kfa_user');
+            document.getElementById('greeting-msg').textContent = '';
+        }
+        function loadName() {
+            const name = localStorage.getItem('kfa_user');
+            if(name) document.getElementById('greeting-msg').textContent = `환영합니다, ${name}님!`;
+        }
+        window.onload = loadName;
     </script>
 </body>
 </html>
