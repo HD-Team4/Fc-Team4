@@ -635,52 +635,103 @@
 
         let kakaoMap = null;
 
-        function initKakaoMap() {
+function initKakaoMap() {
 
-            if (!navigator.geolocation) {
-                alert("위치 서비스를 지원하지 않습니다.");
-                return;
-            }
+    if (!navigator.geolocation) {
+        alert("위치 서비스를 지원하지 않습니다.");
+        return;
+    }
 
-            navigator.geolocation.getCurrentPosition(function (position) {
+    navigator.geolocation.getCurrentPosition(function (position) {
 
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
 
-                kakao.maps.load(function () {
+        // ✅ SDK 로딩 완료 후 실행
+        kakao.maps.load(function () {
 
-                    const container = document.getElementById('kakao-map');
-
+                    const container =
+                        document.getElementById('kakao-map');
+        
                     const options = {
                         center: new kakao.maps.LatLng(lat, lng),
                         level: 4
                     };
-
-                    kakaoMap = new kakao.maps.Map(container, options);
-
-                    const markerPosition = new kakao.maps.LatLng(lat, lng);
-
+        
+                    kakaoMap =
+                        new kakao.maps.Map(container, options);
+        
+                    // 내 위치 마커
                     const marker = new kakao.maps.Marker({
-                        position: markerPosition
+                        position: new kakao.maps.LatLng(lat, lng)
                     });
-
+        
                     marker.setMap(kakaoMap);
-
-                    const ps = new kakao.maps.services.Places();
-
+        
+                    // 장소 검색
+                    const ps =
+                        new kakao.maps.services.Places();
+        
                     ps.keywordSearch(
                         '풋살장',
-                        placesSearchCB,
+                        function (data, status) {
+        
+                            if (
+                                status !==
+                                kakao.maps.services.Status.OK
+                            ) {
+                                return;
+                            }
+        
+                            const list =
+                                document.getElementById('place-list');
+        
+                            list.innerHTML = '';
+        
+                            data.forEach(function (place) {
+        
+                                const marker =
+                                    new kakao.maps.Marker({
+                                        map: kakaoMap,
+                                        position:
+                                            new kakao.maps.LatLng(
+                                                place.y,
+                                                place.x
+                                            )
+                                    });
+        
+                                const div =
+                                    document.createElement('div');
+        
+                                div.className = 'place-card';
+        
+                                div.innerHTML = `
+                                    <strong>${place.place_name}</strong><br>
+                                    ${place.address_name}
+                                `;
+        
+                                div.onclick = function () {
+        
+                                    kakaoMap.panTo(
+                                        new kakao.maps.LatLng(
+                                            place.y,
+                                            place.x
+                                        )
+                                    );
+                                };
+        
+                                list.appendChild(div);
+                            });
+                        },
                         {
-                            location: new kakao.maps.LatLng(lat, lng),
+                            location:
+                                new kakao.maps.LatLng(lat, lng),
                             radius: 5000
                         }
                     );
-
                 });
-
+        
             });
-
         }
 
         function placesSearchCB(data, status) {
