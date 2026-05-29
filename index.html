@@ -86,11 +86,6 @@
         }
 
         /* ── 조원 소개 ── */
-        /*
-            Flexbox 적용:
-            - 조원 카드가 한 줄에 들어가면 가로 정렬됩니다.
-            - 화면이 좁아지면 flex-wrap으로 다음 줄에 자연스럽게 내려갑니다.
-        */
         .intro-grid { display: flex; gap: 25px; flex-wrap: wrap; }
         .team-member {
             flex: 1; min-width: 220px; background: #fff;
@@ -117,11 +112,6 @@
         .kfa-btn:hover { background: #e31837; box-shadow: 0 4px 10px rgba(227,24,55,0.3); }
 
         /* ── 단체샷 ── */
-        /*
-            Flexbox 적용:
-            - 단체샷은 카드 간격을 유지하며 중앙 정렬됩니다.
-            - flex-wrap으로 모바일에서 2열 또는 1열로 줄바꿈됩니다.
-        */
         .team-shot-list {
             display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
         }
@@ -163,11 +153,6 @@
         .close-modal:hover { color: #e31837; }
 
         /* ── 슬라이더 ── */
-        /*
-            Responsive 적용:
-            - 메인 배너 높이를 제한해서 이미지 하단의 검은 영역이 다음 섹션까지 길게 보이지 않게 합니다.
-            - object-position: top으로 이미지 위쪽을 기준으로 보여주고, 하단은 overflow로 잘라냅니다.
-        */
         .news_slide {
             width: 100%; height: clamp(360px, 36vw, 620px);
             overflow: hidden; position: relative;
@@ -219,13 +204,6 @@
             display: none; background: #e31837; color: #fff; padding: 6px 20px;
             border-radius: 20px; font-size: 15px; font-weight: bold;
         }
-        .geo-actions { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-        .reset-btn { background: #777; display: none; }
-        /*
-            Grid 적용:
-            - 지도와 목록을 2:1 비율로 나눕니다.
-            - minmax(0, ...)는 긴 콘텐츠가 있어도 컬럼이 화면 밖으로 밀리지 않게 합니다.
-        */
         .map-grid {
             display: grid; grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
             gap: 20px; align-items: flex-start;
@@ -310,11 +288,6 @@
 
         /* ── 포메이션 ── */
         .section-desc { font-size: 16px; color: #555; margin-bottom: 20px; }
-        /*
-            Flexbox 적용:
-            - 선수 벤치와 경기장을 가로로 배치합니다.
-            - 모바일에서는 벤치가 위, 경기장이 아래로 내려가도록 flex-wrap을 사용합니다.
-        */
         .formation-container { display: flex; gap: 20px; flex-wrap: wrap; }
         .player-bench {
             width: 150px; background: #fdfdfd; border: 2px dashed #002b5e;
@@ -374,11 +347,6 @@
         #greeting-msg { margin-top: 30px; font-size: 24px; color: #e31837; font-weight: bold; }
 
         /* ── 미디어 ── */
-        /*
-            Grid 적용:
-            - 미디어 박스는 같은 너비의 2열로 배치됩니다.
-            - auto-fit/minmax로 공간이 부족하면 자동으로 1열이 됩니다.
-        */
         .media-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 40px;
@@ -389,11 +357,6 @@
             display: flex; flex-direction: column;
         }
         .media-box h3 { font-size: 20px; margin-bottom: 20px; color: #111; font-weight: bold; }
-        /*
-            Responsive 적용:
-            - 홍보 영상과 배경 음악 이미지를 같은 16:9 비율로 고정합니다.
-            - width가 바뀌면 높이도 같이 계산되어 두 카드가 항상 대칭을 유지합니다.
-        */
         .media-visual {
             width: 100%; aspect-ratio: 16 / 9; height: auto;
             display: block; margin-bottom: 15px; border-radius: 8px; border: 1px solid #eee;
@@ -431,11 +394,6 @@
         .footer-links a { color: #ccc; margin: 0 15px; text-decoration: none; }
         .footer-copy { font-size: 14px; color: #aaa; }
 
-        /*
-            Responsive 적용:
-            - 768px 이하는 태블릿/모바일로 보고 여백과 글자 크기를 줄입니다.
-            - Grid 컬럼을 1열로 바꿔 가로 스크롤을 막습니다.
-        */
         @media (max-width: 768px) {
             #pc_version .top { height: auto; min-height: 80px; flex-direction: column; gap: 8px; padding: 10px 16px; }
             .main_logo { width: 140px; height: 48px; background-position: center !important; }
@@ -460,11 +418,6 @@
             #floating-audio audio { width: 100%; max-width: 220px; }
         }
 
-        /*
-            Responsive 적용:
-            - 480px 이하는 작은 모바일 화면입니다.
-            - 카드와 버튼을 1열로 만들어 터치하기 쉽게 유지합니다.
-        */
         @media (max-width: 480px) {
             .team-shot-card, .team-member { flex-basis: 100%; }
             .team-shot-card { height: 200px; }
@@ -568,28 +521,21 @@
                 <div class="geo-status">
                     <div class="geo-status-left">
                         <div id="status-dot"></div>
-                        <span id="status-text">버튼을 눌러 내 위치를 확인하세요</span>
+                        <span id="status-text">내 위치를 불러오는 중입니다...</span>
                     </div>
                     <div id="found-badge">
                         🏟️ 근처 풋살장 <span id="found-count">0</span>개 발견!
                     </div>
                 </div>
 
-                <div class="geo-actions">
-                    <button class="kfa-btn" id="locate-btn" type="button">
-                        📍 내 위치 확인 &amp; 풋살장 찾기
-                    </button>
-                    <button class="kfa-btn reset-btn" id="reset-btn" type="button">
-                        🔄 초기화
-                    </button>
-                </div>
+                <!-- 버튼 영역 제거됨: 지도 이동 시 자동으로 주변 풋살장을 재검색합니다 -->
 
                 <div class="map-grid">
                     <div class="map-panel">
                         <div id="kakao-map">
                             <div id="map-placeholder">
                                 <div class="map-placeholder-icon">🗺️</div>
-                                <div>버튼을 눌러 지도를 불러오세요</div>
+                                <div>내 위치를 불러오는 중입니다...</div>
                             </div>
                         </div>
                         <div id="geo-result"></div>
@@ -600,7 +546,7 @@
                         </div>
                         <div id="place-list">
                             <div class="empty-place-list">
-                                <br>위치 검색 후<br>목록이 표시됩니다
+                                <br>위치 로드 후<br>목록이 표시됩니다
                             </div>
                         </div>
                     </div>
@@ -697,15 +643,17 @@
     </div>
 
     <script>
-    /* ── 공통 DOM 선택 함수: 반복되는 document.querySelector를 짧고 읽기 쉽게 사용합니다. ── */
+    /* ── 공통 DOM 선택 함수 ── */
     const $ = (selector) => document.querySelector(selector);
     const $$ = (selector) => document.querySelectorAll(selector);
 
-    /* ── 카카오맵 / 1. Geolocation API 적용 영역 ── */
+    /* ── 카카오맵 / Geolocation API ── */
     let kakaoMap = null;
     let myMarker = null;
     let placeMarkers = [];
     let openOverlay = null;
+    /* 지도 이동 후 재검색 디바운스용 타이머 */
+    let dragEndTimer = null;
 
     const calcDistance = (lat1, lng1, lat2, lng2) => {
         const earthRadius = 6371000;
@@ -715,21 +663,17 @@
         const a = Math.sin(dLat / 2) ** 2
             + Math.cos(lat1 * toRadian) * Math.cos(lat2 * toRadian) * Math.sin(dLng / 2) ** 2;
         const distance = earthRadius * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
         return distance < 1000 ? `${Math.round(distance)}m` : `${(distance / 1000).toFixed(1)}km`;
     };
 
     const setStatus = (type, text) => {
         const dot = $('#status-dot');
         const statusText = $('#status-text');
-
         dot.className = '';
         dot.style.background = '';
-
         if (type === 'loading') dot.classList.add('dot-loading');
         if (type === 'success') dot.classList.add('dot-success');
-        if (type === 'error') dot.classList.add('dot-error');
-
+        if (type === 'error')   dot.classList.add('dot-error');
         statusText.textContent = text;
     };
 
@@ -738,7 +682,6 @@
             openOverlay.setMap(null);
             openOverlay = null;
         }
-
         $$('.place-card').forEach((card) => card.classList.remove('active'));
     };
 
@@ -757,12 +700,11 @@
         overlayContent.innerHTML = `
             <button class="ov-close" type="button" aria-label="장소 정보 닫기">✕</button>
             <div class="ov-name">${index + 1}. ${place.place_name}</div>
-            <div class="ov-dist">📏 내 위치에서 ${distance}</div>
+            <div class="ov-dist">📏 지도 중심에서 ${distance}</div>
             <div class="ov-address">${place.road_address_name || place.address_name}</div>
             <a class="ov-navi" href="${naviUrl}" target="_blank" rel="noopener">🚗 카카오맵으로 길찾기</a>
         `;
         overlayContent.querySelector('.ov-close').addEventListener('click', closeOverlay);
-
         return overlayContent;
     };
 
@@ -778,17 +720,15 @@
                 <a class="navi-btn" href="${naviUrl}" target="_blank" rel="noopener">🚗 길찾기</a>
             </div>
         `;
-
         return card;
     };
 
-    const renderPlaces = (places, myLat, myLng) => {
-        const locateBtn = $('#locate-btn');
+    /**
+     * 기준 좌표(centerLat, centerLng) 주변 풋살장을 렌더링합니다.
+     * 최초 로드(내 위치 기준)와 지도 이동 후 재검색 양쪽에서 공용으로 사용합니다.
+     */
+    const renderPlaces = (places, centerLat, centerLng) => {
         const placeList = $('#place-list');
-
-        locateBtn.disabled = false;
-        locateBtn.innerHTML = '📍 내 위치 확인 &amp; 풋살장 찾기';
-        $('#reset-btn').style.display = 'inline-flex';
 
         if (places.length === 0) {
             setStatus('error', '반경 5km 이내 풋살장/축구장을 찾지 못했습니다.');
@@ -796,38 +736,41 @@
             return;
         }
 
-        setStatus('success', '위치 확인 완료! 주변 풋살장을 지도에 표시했습니다.');
+        setStatus('success', '주변 풋살장을 지도에 표시했습니다. 지도를 움직이면 해당 위치 기준으로 재검색합니다.');
         $('#found-count').textContent = places.length;
         $('#found-badge').style.display = 'block';
         $('#place-list-header').style.display = 'block';
         placeList.innerHTML = '';
 
-        const bounds = new kakao.maps.LatLngBounds();
-        bounds.extend(new kakao.maps.LatLng(myLat, myLng));
+        /* 기존 장소 마커 제거 */
+        placeMarkers.forEach((marker) => marker.setMap(null));
+        placeMarkers = [];
+        closeOverlay();
 
         places.forEach((place, index) => {
             const lat = Number(place.y);
             const lng = Number(place.x);
             const position = new kakao.maps.LatLng(lat, lng);
-            const distance = calcDistance(myLat, myLng, lat, lng);
+            const distance = calcDistance(centerLat, centerLng, lat, lng);
             const naviUrl = `https://map.kakao.com/link/to/${encodeURIComponent(place.place_name)},${lat},${lng}`;
             const marker = new kakao.maps.Marker({ map: kakaoMap, position, title: place.place_name });
             const overlayContent = createOverlayContent(place, index, distance, naviUrl);
             const overlay = new kakao.maps.CustomOverlay({ content: overlayContent, position, yAnchor: 1.4, zIndex: 3 });
             const card = createPlaceCard(place, index, distance, naviUrl);
 
-            bounds.extend(position);
             placeMarkers.push(marker);
 
             kakao.maps.event.addListener(marker, 'click', () => activatePlace(overlay, position, card));
             card.addEventListener('click', () => activatePlace(overlay, position, card));
             placeList.appendChild(card);
         });
-
-        kakaoMap.setBounds(bounds);
     };
 
-    const searchNearbyFutsals = (myLat, myLng) => {
+    /**
+     * 주어진 좌표 기준으로 풋살장/축구장을 검색합니다.
+     * 최초 로드와 지도 이동(dragend) 양쪽에서 호출됩니다.
+     */
+    const searchNearbyFutsals = (centerLat, centerLng) => {
         const placesService = new kakao.maps.services.Places();
         const keywords = ['풋살장', '축구장'];
         let allPlaces = [];
@@ -838,18 +781,15 @@
                 if (status === kakao.maps.services.Status.OK) {
                     allPlaces = [...allPlaces, ...data];
                 }
-
                 completedCount += 1;
-
                 if (completedCount === keywords.length) {
                     const seenIds = new Set();
                     const uniquePlaces = allPlaces.filter((place) => !seenIds.has(place.id) && seenIds.add(place.id));
                     const sortedPlaces = uniquePlaces.sort((a, b) => Number(a.distance) - Number(b.distance));
-
-                    renderPlaces(sortedPlaces.slice(0, 8), myLat, myLng);
+                    renderPlaces(sortedPlaces.slice(0, 8), centerLat, centerLng);
                 }
             }, {
-                location: new kakao.maps.LatLng(myLat, myLng),
+                location: new kakao.maps.LatLng(centerLat, centerLng),
                 radius: 5000,
                 size: 6,
                 sort: kakao.maps.services.SortBy.DISTANCE
@@ -857,17 +797,18 @@
         });
     };
 
+    /**
+     * 페이지 로드 시 자동 실행:
+     * 1) Geolocation으로 내 위치 획득
+     * 2) 지도 생성 & 내 위치 마커
+     * 3) 풋살장 최초 검색
+     * 4) 지도 이동(dragend) 이벤트 등록 → 중심 좌표 기준 재검색
+     */
     const initKakaoMap = () => {
-        const locateBtn = $('#locate-btn');
-
-        locateBtn.disabled = true;
-        locateBtn.textContent = '⏳ 위치 확인 중...';
         setStatus('loading', '현재 위치를 가져오는 중입니다...');
 
         if (!navigator.geolocation) {
             setStatus('error', 'Geolocation을 지원하지 않는 브라우저입니다.');
-            locateBtn.disabled = false;
-            locateBtn.innerHTML = '📍 내 위치 확인 &amp; 풋살장 찾기';
             return;
         }
 
@@ -880,6 +821,7 @@
             $('#map-placeholder').style.display = 'none';
 
             kakaoMap = new kakao.maps.Map($('#kakao-map'), { center: myPosition, level: 5 });
+
             myMarker = new kakao.maps.Marker({
                 map: kakaoMap,
                 position: myPosition,
@@ -896,40 +838,33 @@
 
             setStatus('loading', '주변 풋살장을 검색하고 있습니다...');
             searchNearbyFutsals(myLat, myLng);
+
+            /*
+             * 지도 이동 완료(dragend) 이벤트:
+             * 사용자가 지도를 드래그하면 새 중심 좌표로 풋살장을 재검색합니다.
+             * 연속 이동 시 마지막 이동이 끝난 뒤 500ms 후에 한 번만 실행됩니다(디바운스).
+             */
+            kakao.maps.event.addListener(kakaoMap, 'dragend', () => {
+                clearTimeout(dragEndTimer);
+                dragEndTimer = setTimeout(() => {
+                    const center = kakaoMap.getCenter();
+                    const newLat = center.getLat();
+                    const newLng = center.getLng();
+                    setStatus('loading', '지도 중심 기준으로 풋살장을 재검색 중...');
+                    searchNearbyFutsals(newLat, newLng);
+                }, 500);
+            });
+
         }, () => {
-            setStatus('error', '위치 권한이 거부되었습니다. 브라우저 설정에서 위치 허용 후 다시 시도해주세요.');
-            locateBtn.disabled = false;
-            locateBtn.innerHTML = '📍 내 위치 확인 &amp; 풋살장 찾기';
+            setStatus('error', '위치 권한이 거부되었습니다. 브라우저 설정에서 위치 허용 후 새로고침해주세요.');
+            $('#map-placeholder').style.display = 'flex';
         }, {
             enableHighAccuracy: true,
             timeout: 10000
         });
     };
 
-    const resetMap = () => {
-        placeMarkers.forEach((marker) => marker.setMap(null));
-        placeMarkers = [];
-        closeOverlay();
-
-        if (myMarker) {
-            myMarker.setMap(null);
-            myMarker = null;
-        }
-
-        kakaoMap = null;
-        $('#map-placeholder').style.display = 'flex';
-        $('#found-badge').style.display = 'none';
-        $('#place-list-header').style.display = 'none';
-        $('#geo-result').textContent = '';
-        $('#place-list').innerHTML = '<div class="empty-place-list">📍<br>위치 검색 후<br>목록이 표시됩니다</div>';
-        $('#reset-btn').style.display = 'none';
-        $('#locate-btn').disabled = false;
-        $('#locate-btn').innerHTML = '📍 내 위치 확인 &amp; 풋살장 찾기';
-        setStatus('', '버튼을 눌러 내 위치를 확인하세요');
-        $('#status-dot').style.background = '#ccc';
-    };
-
-    /* ── 2. Drag and Drop API 적용 영역 ── */
+    /* ── Drag and Drop API ── */
     let draggedOffsetX = 0;
     let draggedOffsetY = 0;
 
@@ -938,9 +873,7 @@
     const dragPlayer = (event) => {
         const player = event.target.closest('.player-icon');
         if (!player) return;
-
         event.dataTransfer.setData('text/plain', player.id);
-
         const playerRect = player.getBoundingClientRect();
         draggedOffsetX = event.clientX - playerRect.left;
         draggedOffsetY = event.clientY - playerRect.top;
@@ -948,10 +881,8 @@
 
     const dropPlayerBench = (event) => {
         event.preventDefault();
-
         const player = document.getElementById(event.dataTransfer.getData('text/plain'));
         if (!player) return;
-
         player.style.position = 'relative';
         player.style.left = '0';
         player.style.top = '0';
@@ -960,10 +891,8 @@
 
     const dropPlayerOnPitch = (event) => {
         event.preventDefault();
-
         const player = document.getElementById(event.dataTransfer.getData('text/plain'));
         if (!player) return;
-
         const pitchRect = event.currentTarget.getBoundingClientRect();
         player.style.position = 'absolute';
         player.style.left = `${event.clientX - pitchRect.left - draggedOffsetX}px`;
@@ -974,14 +903,13 @@
     const initDragAndDrop = () => {
         const bench = $('#player-bench');
         const pitch = $('#football-pitch');
-
         $$('.player-icon').forEach((player) => player.addEventListener('dragstart', dragPlayer));
         [bench, pitch].forEach((dropZone) => dropZone.addEventListener('dragover', allowDrop));
         bench.addEventListener('drop', dropPlayerBench);
         pitch.addEventListener('drop', dropPlayerOnPitch);
     };
 
-    /* ── 3. Web Storage API 적용 영역 ── */
+    /* ── Web Storage API ── */
     const displayGreeting = () => {
         const savedName = localStorage.getItem('teamVisitorName');
         $('#greeting-msg').innerText = savedName ? `환영합니다, ${savedName}님! 홈페이지 방문을 진심으로 환영합니다.` : '';
@@ -990,12 +918,7 @@
     const saveName = () => {
         const usernameInput = $('#username');
         const name = usernameInput.value.trim();
-
-        if (!name) {
-            alert('이름을 입력해주세요.');
-            return;
-        }
-
+        if (!name) { alert('이름을 입력해주세요.'); return; }
         localStorage.setItem('teamVisitorName', name);
         displayGreeting();
     };
@@ -1014,36 +937,22 @@
         const sliderWrapper = $('.slider-wrapper');
         const slides = $$('.img_slide');
         const dots = $$('.dot');
-
         if (!sliderWrapper || slides.length === 0) return;
-
         if (nextIndex >= slides.length) slideIndex = 0;
         else if (nextIndex < 0) slideIndex = slides.length - 1;
         else slideIndex = nextIndex;
-
         sliderWrapper.style.transform = `translateX(-${slideIndex * 100}%)`;
         dots.forEach((dot) => dot.classList.remove('active'));
         dots[slideIndex]?.classList.add('active');
     };
 
-    const moveSlide = (amount) => {
-        showSlide(slideIndex + amount);
-        resetSlideTimer();
-    };
-
-    const startSlideTimer = () => {
-        slideTimer = setInterval(() => moveSlide(1), 5000);
-    };
-
-    const resetSlideTimer = () => {
-        clearInterval(slideTimer);
-        startSlideTimer();
-    };
+    const moveSlide = (amount) => { showSlide(slideIndex + amount); resetSlideTimer(); };
+    const startSlideTimer = () => { slideTimer = setInterval(() => moveSlide(1), 5000); };
+    const resetSlideTimer = () => { clearInterval(slideTimer); startSlideTimer(); };
 
     const initSlider = () => {
         showSlide(0);
         startSlideTimer();
-
         $('#prev-slide').addEventListener('click', () => moveSlide(-1));
         $('#next-slide').addEventListener('click', () => moveSlide(1));
         $$('.dot').forEach((dot) => {
@@ -1057,7 +966,6 @@
     /* ── 모달 ── */
     const openModal = (src) => {
         const modal = $('#imageModal');
-
         $('#modalImage').src = src;
         modal.style.display = 'flex';
         setTimeout(() => modal.classList.add('show'), 10);
@@ -1065,22 +973,15 @@
 
     const closeModal = () => {
         const modal = $('#imageModal');
-
         modal.classList.remove('show');
-        setTimeout(() => {
-            modal.style.display = 'none';
-            $('#modalImage').src = '';
-        }, 300);
+        setTimeout(() => { modal.style.display = 'none'; $('#modalImage').src = ''; }, 300);
     };
 
     const initModal = () => {
         $$('.team-shot-card').forEach((card) => {
             card.addEventListener('click', () => openModal(card.dataset.imageSrc));
         });
-
-        $('#imageModal').addEventListener('click', (event) => {
-            if (event.target.id === 'imageModal') closeModal();
-        });
+        $('#imageModal').addEventListener('click', (event) => { if (event.target.id === 'imageModal') closeModal(); });
         $('.close-modal').addEventListener('click', closeModal);
     };
 
@@ -1090,16 +991,13 @@
         });
     };
 
-    /* ── 4. HTML Video / 5. HTML Audio 적용 영역 ── */
+    /* ── 미디어 ── */
     const initMedia = () => {
         const bgm = $('#bgm');
-
         bgm?.play().catch(() => {});
-
         document.body.addEventListener('click', () => {
             if (bgm?.paused) bgm.play().catch(() => {});
         }, { once: true });
-
         ['media-video', 'media-audio'].forEach((id) => {
             const mediaElement = document.getElementById(id);
             mediaElement?.addEventListener('play', () => {
@@ -1108,7 +1006,7 @@
         });
     };
 
-    /* ── 초기화: 페이지가 준비된 뒤 필요한 기능을 한 번씩 연결합니다. ── */
+    /* ── 초기화 ── */
     document.addEventListener('DOMContentLoaded', () => {
         displayGreeting();
         initSlider();
@@ -1116,9 +1014,8 @@
         initProfiles();
         initDragAndDrop();
         initMedia();
-        initKakaoMap();// 페이지 로드시 바로 지도 실행
-    
-        $('#reset-btn').addEventListener('click', resetMap);
+        initKakaoMap(); // 페이지 로드 시 자동으로 내 위치 + 풋살장 표시
+
         $('#save-name-btn').addEventListener('click', saveName);
         $('#clear-name-btn').addEventListener('click', clearName);
     });
