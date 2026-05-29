@@ -92,12 +92,175 @@
             border: 1px solid #ddd; text-align: center;
             border-radius: 8px; overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;
+            position: relative; /* 배지 배치를 위한 기준점 */
         }
         .team-member:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
         .team-member .member-img { width: 100%; height: auto; border-bottom: 4px solid #002b5e; display: block; }
-        .team-info { padding: 25px; }
+        .team-info { padding: 25px; display: flex; flex-direction: column; align-items: center; }
         .team-info h3 { font-size: 22px; color: #e31837; margin-bottom: 10px; font-weight: bold; }
         .team-info p { font-size: 16px; color: #555; }
+        
+        /* MVP 투표 배지 스타일 */
+        .mvp-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #e31837 0%, #a01026 100%);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(227, 24, 55, 0.4);
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s ease;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+        }
+        .team-member:hover .mvp-badge {
+            transform: scale(1.08);
+            box-shadow: 0 6px 15px rgba(227, 24, 55, 0.6);
+        }
+
+        /* 포트폴리오 바로가기 버튼 */
+        .portfolio-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #002b5e;
+            color: #fff !important;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-top: 15px;
+            border: 1px solid transparent;
+            box-shadow: 0 2px 6px rgba(0, 43, 94, 0.2);
+        }
+        .portfolio-btn:hover {
+            background: #e31837;
+            box-shadow: 0 4px 10px rgba(227, 24, 55, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* +1 플로팅 애니메이션 */
+        .floating-plus-one {
+            position: absolute;
+            font-size: 26px;
+            font-weight: 900;
+            color: #e31837;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            animation: floatUpAndFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            z-index: 999;
+        }
+        @keyframes floatUpAndFade {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -80%) scale(1.25);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -180%) scale(1);
+            }
+        }
+
+        /* 카드 클릭 펄스 애니메이션 */
+        .team-member.pulse {
+            animation: cardPulse 0.4s ease-out;
+        }
+        @keyframes cardPulse {
+            0% { transform: scale(1) translateY(0); }
+            40% { transform: scale(1.04) translateY(-3px); }
+            70% { transform: scale(0.98) translateY(1px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+
+        /* 최고 득표자 왕관 스타일 */
+        /* 최고 득표자 왕관 스타일 (중앙 정렬 및 적절한 스케일) */
+        .crown-badge {
+            position: absolute;
+            top: -35px; /* 카드의 머리 위에 더 안정감 있게 내려앉도록 조절 */
+            left: 50%;
+            font-size: 70px; /* 기존 140px에서 절반 크기인 70px로 조절 */
+            z-index: 10;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+            opacity: 0;
+            transform: translate(-50%, 15px) rotate(-15deg) scale(0.7);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+        .crown-badge.active {
+            opacity: 1;
+            transform: translate(-50%, 0) rotate(-10deg) scale(1);
+            animation: crownShine 2.2s infinite ease-in-out;
+        }
+        @keyframes crownShine {
+            0%, 100% {
+                transform: translate(-50%, 0) rotate(-10deg) scale(1);
+                filter: drop-shadow(0 6px 12px rgba(255, 215, 0, 0.6));
+            }
+            50% {
+                transform: translate(-50%, -6px) rotate(-5deg) scale(1.05);
+                filter: drop-shadow(0 12px 24px rgba(255, 215, 0, 0.9));
+            }
+        }
+
+        /* 1위 카드 스포트라이트(Spotlight) 효과 스타일 */
+        .team-member.spotlight {
+            border-color: #ffd700 !important; /* 황금색 테두리 */
+            box-shadow: 0 20px 45px rgba(255, 215, 0, 0.45), 0 0 20px rgba(255, 215, 0, 0.2) !important;
+            transform: translateY(-10px) scale(1.03); /* 더욱 도드라지게 공중 부양 */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 8;
+        }
+        
+        /* 1위 카드 스포트라이트 텍스트 강조 */
+        .team-member.spotlight .team-info h3 {
+            color: #d4af37 !important; /* 황금빛 성명 */
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+        }
+
+        /* 1위 카드 사진 강조 */
+        .team-member.spotlight .member-img {
+            border-bottom-color: #ffd700 !important;
+            filter: brightness(1.08) contrast(1.05);
+        }
+
+        /* 스포트라이트 광원 빔 효과 (사선 모양의 강력한 빔 스위핑) */
+        .team-member.spotlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 120%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.55),
+                transparent
+            );
+            transform: skewX(-25deg);
+            pointer-events: none;
+            animation: spotlightSweep 3.2s infinite ease-in-out;
+            z-index: 4;
+        }
+        @keyframes spotlightSweep {
+            0% { left: -150%; }
+            45% { left: 150%; }
+            100% { left: 150%; }
+        }
 
         .contents { padding-top: 80px; }
 
@@ -334,6 +497,68 @@
         .penalty-box.left  { left: 5px;  border-left: none; }
         .penalty-box.right { right: 5px; border-right: none; }
 
+        /* 신규 추가: 물리적 축구 골대(Goalpost) 비주얼 스타일 */
+        .goalpost {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 90px;
+            border: 2px solid #fff;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.1) 4px,
+                rgba(255, 255, 255, 0.25) 4px,
+                rgba(255, 255, 255, 0.25) 8px
+            ); /* 미려한 흰색 그물망 해치 패턴 */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 1;
+        }
+        .goalpost.left-goal {
+            left: 0;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+        }
+        .goalpost.right-goal {
+            right: 0;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+        }
+
+        /* 신규 추가: 골 세레머니 스코어보드 오버레이 */
+        .goal-celebration {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            background: linear-gradient(135deg, #002b5e 0%, #001229 100%);
+            color: #fff;
+            font-size: 32px;
+            font-weight: 900;
+            padding: 20px 40px;
+            border-radius: 20px;
+            border: 4px solid #ffd700; /* 화려한 황금 테두리 */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            text-align: center;
+            line-height: 1.4;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+        }
+        .goal-celebration.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            animation: goalCelebrationShake 0.6s infinite alternate;
+        }
+        
+        @keyframes goalCelebrationShake {
+            0% { transform: translate(-50%, -50%) scale(1) rotate(-1deg); }
+            100% { transform: translate(-50%, -50%) scale(1.02) rotate(1deg); }
+        }
+
         /* ── 방명록 ── */
         .storage-desc { font-size: 18px; color: #555; margin-bottom: 20px; }
         .storage-form { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
@@ -492,23 +717,50 @@
 
         <!-- 2. 조 소개 -->
         <div id="intro" class="custom-section">
-            <h2 class="kfa-title">조원 소개</h2>
+            <h2 class="kfa-title">조원 소개 &amp; MVP 투표</h2>
+            <p class="section-desc" style="margin-bottom: 25px; font-weight: 500; color: #444; display: flex; align-items: center; gap: 8px;">
+                🏆 <strong>당신의 MVP를 뽑아주세요!</strong> 사진을 클릭하면 투표수가 증가합니다.
+            </p>
             <div class="intro-grid">
-                <article class="team-member" data-profile-url="https://dev-anniee.github.io/">
+                <article class="team-member" id="member-card-1" data-profile-url="https://dev-anniee.github.io/">
+                    <div class="crown-badge">👑</div>
+                    <div class="mvp-badge">🏆 <span id="votes-1">0</span>표</div>
                     <img src="member1.png" alt="안정민" class="member-img">
-                    <div class="team-info"><h3>안정민</h3><p>No.1 팀장</p></div>
+                    <div class="team-info">
+                        <h3>안정민</h3>
+                        <p>No.1 팀장</p>
+                        <a href="https://dev-anniee.github.io/" target="_blank" rel="noopener" class="portfolio-btn">포트폴리오 보기 🔗</a>
+                    </div>
                 </article>
-                <article class="team-member" data-profile-url="https://chaeyeonkong.github.io/">
+                <article class="team-member" id="member-card-2" data-profile-url="https://chaeyeonkong.github.io/">
+                    <div class="crown-badge">👑</div>
+                    <div class="mvp-badge">🏆 <span id="votes-2">0</span>표</div>
                     <img src="member2.png" alt="공채연" class="member-img">
-                    <div class="team-info"><h3>공채연</h3><p>No.7 팀원</p></div>
+                    <div class="team-info">
+                        <h3>공채연</h3>
+                        <p>No.7 팀원</p>
+                        <a href="https://chaeyeonkong.github.io/" target="_blank" rel="noopener" class="portfolio-btn">포트폴리오 보기 🔗</a>
+                    </div>
                 </article>
-                <article class="team-member" data-profile-url="https://hongjunpyo0222.github.io/">
+                <article class="team-member" id="member-card-3" data-profile-url="https://hongjunpyo0222.github.io/">
+                    <div class="crown-badge">👑</div>
+                    <div class="mvp-badge">🏆 <span id="votes-3">0</span>표</div>
                     <img src="member3.png" alt="홍준표" class="member-img">
-                    <div class="team-info"><h3>홍준표</h3><p>No.2 팀원</p></div>
+                    <div class="team-info">
+                        <h3>홍준표</h3>
+                        <p>No.2 팀원</p>
+                        <a href="https://hongjunpyo0222.github.io/" target="_blank" rel="noopener" class="portfolio-btn">포트폴리오 보기 🔗</a>
+                    </div>
                 </article>
-                <article class="team-member" data-profile-url="https://ui-chan.github.io/WebChan/">
+                <article class="team-member" id="member-card-4" data-profile-url="https://ui-chan.github.io/WebChan/">
+                    <div class="crown-badge">👑</div>
+                    <div class="mvp-badge">🏆 <span id="votes-4">0</span>표</div>
                     <img src="member4.png" alt="안의찬" class="member-img">
-                    <div class="team-info"><h3>안의찬</h3><p>No.11 팀원</p></div>
+                    <div class="team-info">
+                        <h3>안의찬</h3>
+                        <p>No.11 팀원</p>
+                        <a href="https://ui-chan.github.io/WebChan/" target="_blank" rel="noopener" class="portfolio-btn">포트폴리오 보기 🔗</a>
+                    </div>
                 </article>
             </div>
         </div>
@@ -579,6 +831,8 @@
                     <div class="center-line"></div>
                     <div class="penalty-box left"></div>
                     <div class="penalty-box right"></div>
+                    <div class="goalpost left-goal"></div>
+                    <div class="goalpost right-goal"></div>
                 </div>
             </div>
         </div>
@@ -864,9 +1118,12 @@
         });
     };
 
-    /* ── Drag and Drop API ── */
+    /* ── Drag and Drop & Physics Engine ── */
     let draggedOffsetX = 0;
     let draggedOffsetY = 0;
+    
+    // 경기장 안에서 활동 중인 선수들의 물리 상태 목록
+    let activePlayers = []; // { id, el, x, y, vx, vy, radius: 30 }
 
     const allowDrop = (event) => event.preventDefault();
 
@@ -877,12 +1134,19 @@
         const playerRect = player.getBoundingClientRect();
         draggedOffsetX = event.clientX - playerRect.left;
         draggedOffsetY = event.clientY - playerRect.top;
+        
+        // 드래그 중인 선수는 물리 연산 목록에서 임시 제외 (마우스 조작 우선)
+        activePlayers = activePlayers.filter((p) => p.id !== player.id);
     };
 
     const dropPlayerBench = (event) => {
         event.preventDefault();
         const player = document.getElementById(event.dataTransfer.getData('text/plain'));
         if (!player) return;
+        
+        // 벤치로 복귀 시 물리 연산 목록에서 영구 제외
+        activePlayers = activePlayers.filter((p) => p.id !== player.id);
+        
         player.style.position = 'relative';
         player.style.left = '0';
         player.style.top = '0';
@@ -893,11 +1157,196 @@
         event.preventDefault();
         const player = document.getElementById(event.dataTransfer.getData('text/plain'));
         if (!player) return;
-        const pitchRect = event.currentTarget.getBoundingClientRect();
+        
+        const pitch = event.currentTarget;
+        const pitchRect = pitch.getBoundingClientRect();
+        
+        const droppedX = event.clientX - pitchRect.left - draggedOffsetX;
+        const droppedY = event.clientY - pitchRect.top - draggedOffsetY;
+        
         player.style.position = 'absolute';
-        player.style.left = `${event.clientX - pitchRect.left - draggedOffsetX}px`;
-        player.style.top = `${event.clientY - pitchRect.top - draggedOffsetY}px`;
-        event.currentTarget.appendChild(player);
+        player.style.left = `${droppedX}px`;
+        player.style.top = `${droppedY}px`;
+        pitch.appendChild(player);
+
+        // 중복 추가 방지
+        activePlayers = activePlayers.filter((p) => p.id !== player.id);
+
+        // 팅겨나갈 때 사용할 재미있고 무작위적인 속도 벡터 생성
+        const speed = 2 + Math.random() * 2; // 속도 크기 2 ~ 4px/frame
+        const angle = Math.random() * Math.PI * 2;
+        
+        activePlayers.push({
+            id: player.id,
+            el: player,
+            x: droppedX,
+            y: droppedY,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            radius: 30
+        });
+    };
+
+    // 신규 추가: 골인 시 축하 전광판 연출 함수
+    const triggerGoalCelebration = (playerName) => {
+        const pitch = document.getElementById('football-pitch');
+        if (!pitch) return;
+        
+        // 기존 전광판 레이어 파기
+        const existing = pitch.querySelector('.goal-celebration');
+        if (existing) existing.remove();
+
+        const celeb = document.createElement('div');
+        celeb.className = 'goal-celebration';
+        celeb.innerHTML = `⚽ GOAL!!!<br><span style="font-size: 20px; font-weight: bold; color: #ffd700;">${playerName} 득점!</span>`;
+        pitch.appendChild(celeb);
+
+        // 스케일 및 오파시티 페이드 인
+        setTimeout(() => celeb.classList.add('show'), 50);
+
+        // 1.5초 후 스케일 아웃 및 파기
+        setTimeout(() => {
+            celeb.classList.remove('show');
+            setTimeout(() => {
+                celeb.remove();
+            }, 400);
+        }, 1500);
+    };
+
+    // 실시간 물리 연산 루프
+    const updatePhysics = () => {
+        const pitch = document.getElementById('football-pitch');
+        if (!pitch) {
+            requestAnimationFrame(updatePhysics);
+            return;
+        }
+
+        const width = pitch.clientWidth;
+        const height = pitch.clientHeight;
+        const playerSize = 60; // 선수 너비/높이
+
+        // 골인을 기록한 선수 임시 보관 배열
+        let scorers = [];
+
+        // 1. 선수들 위치 이동 및 외벽/골대 충돌 검증
+        activePlayers.forEach((p) => {
+            p.x += p.vx;
+            p.y += p.vy;
+
+            const cy = p.y + 30; // 선수의 Y축 중심점
+            const goalTop = (height - 90) / 2;
+            const goalBottom = (height + 90) / 2;
+
+            // 좌우 벽면 및 골망 검사
+            if (p.x < 0) {
+                // Y축 중심점이 골망 범위 안인 경우 골인!
+                if (cy >= goalTop && cy <= goalBottom) {
+                    scorers.push(p);
+                } else {
+                    p.x = 0;
+                    p.vx = Math.abs(p.vx); // 오른쪽으로 반사
+                }
+            } else if (p.x > width - playerSize) {
+                // Y축 중심점이 골망 범위 안인 경우 골인!
+                if (cy >= goalTop && cy <= goalBottom) {
+                    scorers.push(p);
+                } else {
+                    p.x = width - playerSize;
+                    p.vx = -Math.abs(p.vx); // 왼쪽으로 반사
+                }
+            }
+
+            // 상하 벽면 충돌
+            if (p.y < 0) {
+                p.y = 0;
+                p.vy = Math.abs(p.vy); // 아래쪽으로 반사
+            } else if (p.y > height - playerSize) {
+                p.y = height - playerSize;
+                p.vy = -Math.abs(p.vy); // 위쪽으로 반사
+            }
+        });
+
+        // 골인을 한 선수들의 대기석 복귀 및 세레머니 연쇄 처리
+        scorers.forEach((p) => {
+            // 물리 목록에서 제거
+            activePlayers = activePlayers.filter((ap) => ap.id !== p.id);
+
+            // 대기 벤치 DOM 영역으로 강제 환수
+            const bench = document.getElementById('player-bench');
+            if (bench) {
+                p.el.style.position = 'relative';
+                p.el.style.left = '0';
+                p.el.style.top = '0';
+                bench.appendChild(p.el);
+            }
+
+            // 성명 파싱 및 골 세레머니 트리거
+            const name = p.el.querySelector('span')?.textContent || '조원';
+            triggerGoalCelebration(name);
+        });
+
+        // 2. 선수간 탄성 충돌 연산 (Elastic 2D Collisions)
+        for (let i = 0; i < activePlayers.length; i++) {
+            for (let j = i + 1; j < activePlayers.length; j++) {
+                const p1 = activePlayers[i];
+                const p2 = activePlayers[j];
+
+                // 각각의 원형 중심 구하기
+                const c1x = p1.x + 30;
+                const c1y = p1.y + 30;
+                const c2x = p2.x + 30;
+                const c2y = p2.y + 30;
+
+                const dx = c2x - c1x;
+                const dy = c2y - c1y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const minDist = p1.radius + p2.radius; // 30 + 30 = 60
+
+                if (dist < minDist && dist > 0) {
+                    // 충돌 감지!
+                    
+                    // A. 정적 겹침 해소 (서로 끼어서 비벼지는 것 방지)
+                    const overlap = minDist - dist;
+                    const nx = dx / dist;
+                    const ny = dy / dist;
+
+                    p1.x -= nx * overlap * 0.5;
+                    p1.y -= ny * overlap * 0.5;
+                    p2.x += nx * overlap * 0.5;
+                    p2.y += ny * overlap * 0.5;
+
+                    // B. 동적 탄성 속도 충돌 공식 적용
+                    const tx = -ny;
+                    const ty = nx;
+
+                    // 법선 벡터와 접선 벡터 투영 속도 (스칼라 값)
+                    const dpn1 = p1.vx * nx + p1.vy * ny;
+                    const dpt1 = p1.vx * tx + p1.vy * ty;
+                    
+                    const dpn2 = p2.vx * nx + p2.vy * ny;
+                    const dpt2 = p2.vx * tx + p2.vy * ty;
+
+                    // 법선 방향 속도 전면 교환 (등가 질량을 가정한 완전 탄성 충돌 바운스)
+                    const dpn1_after = dpn2;
+                    const dpn2_after = dpn1;
+
+                    // 스칼라 속도 성분을 다시 2D 속도 벡터로 조립
+                    p1.vx = dpn1_after * nx + dpt1 * tx;
+                    p1.vy = dpn1_after * ny + dpt1 * ty;
+                    
+                    p2.vx = dpn2_after * nx + dpt2 * tx;
+                    p2.vy = dpn2_after * ny + dpt2 * ty;
+                }
+            }
+        }
+
+        // 3. 실제 DOM에 렌더링 적용
+        activePlayers.forEach((p) => {
+            p.el.style.left = `${p.x}px`;
+            p.el.style.top = `${p.y}px`;
+        });
+
+        requestAnimationFrame(updatePhysics);
     };
 
     const initDragAndDrop = () => {
@@ -907,6 +1356,9 @@
         [bench, pitch].forEach((dropZone) => dropZone.addEventListener('dragover', allowDrop));
         bench.addEventListener('drop', dropPlayerBench);
         pitch.addEventListener('drop', dropPlayerOnPitch);
+        
+        // 물리 시뮬레이션 루프 개시
+        requestAnimationFrame(updatePhysics);
     };
 
     /* ── Web Storage API ── */
@@ -986,8 +1438,91 @@
     };
 
     const initProfiles = () => {
-        $$('.team-member').forEach((member) => {
-            member.addEventListener('click', () => window.open(member.dataset.profileUrl, '_blank', 'noopener'));
+        // 왕관을 최고 득표자 카드에 씌워주는 함수 정의
+        const updateCrowns = () => {
+            const votes = [1, 2, 3, 4].map((id) => {
+                return {
+                    id: id,
+                    count: parseInt($(`#votes-${id}`).textContent || '0', 10)
+                };
+            });
+            const maxVotes = Math.max(...votes.map((v) => v.count));
+            
+            votes.forEach((v) => {
+                const card = $(`#member-card-${v.id}`);
+                const crown = card.querySelector('.crown-badge');
+                if (maxVotes > 0 && v.count === maxVotes) {
+                    crown.classList.add('active');
+                    card.classList.add('spotlight');
+                } else {
+                    crown.classList.remove('active');
+                    card.classList.remove('spotlight');
+                }
+            });
+        };
+
+        // 각 멤버별 투표 로직 및 애니메이션 처리
+        $$('.team-member').forEach((member, index) => {
+            const memberId = index + 1;
+
+            // 1. 페이지 로드 시 로컬 스토리지에서 기존 투표수 복구
+            const savedVotes = localStorage.getItem(`mvp_votes_member_${memberId}`) || '0';
+            $(`#votes-${memberId}`).textContent = savedVotes;
+
+            // 2. 카드 클릭 시 MVP 투표 처리 (포트폴리오 버튼 클릭 시 제외)
+            member.addEventListener('click', (event) => {
+                // 클릭된 대상이 포트폴리오 버튼이거나 그 내부 요소인 경우 투표를 진행하지 않음
+                if (event.target.closest('.portfolio-btn')) {
+                    return;
+                }
+
+                // 투표 진행
+                event.preventDefault();
+
+                // 투표수 증가
+                let currentVotes = parseInt(localStorage.getItem(`mvp_votes_member_${memberId}`) || '0', 10);
+                currentVotes += 1;
+                localStorage.setItem(`mvp_votes_member_${memberId}`, currentVotes);
+
+                // 화면에 표기 갱신
+                $(`#votes-${memberId}`).textContent = currentVotes;
+
+                // 실시간 왕관 씌우기 갱신
+                updateCrowns();
+
+                // 마이크로 애니메이션 1: 카드 자체 펄스 피드백
+                member.classList.remove('pulse');
+                void member.offsetWidth; // 리플로우를 발생시켜 애니메이션 초기화
+                member.classList.add('pulse');
+
+                // 마이크로 애니메이션 2: 클릭 지점에서 +1 플로팅 텍스트 띄우기
+                const rect = member.getBoundingClientRect();
+                const clickX = event.clientX - rect.left;
+                const clickY = event.clientY - rect.top;
+
+                const plusOne = document.createElement('div');
+                plusOne.className = 'floating-plus-one';
+                plusOne.textContent = '+1';
+                plusOne.style.left = `${clickX}px`;
+                plusOne.style.top = `${clickY}px`;
+
+                member.appendChild(plusOne);
+
+                // 애니메이션 종료(800ms) 후 플로팅 요소 제거
+                setTimeout(() => {
+                    plusOne.remove();
+                }, 800);
+            });
+        });
+
+        // 최초 로드 시 왕관 표시 갱신
+        updateCrowns();
+
+        // 3. 포트폴리오 바로가기 버튼 클릭 시 이벤트 버블링(부모 클릭) 차단
+        $$('.portfolio-btn').forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
         });
     };
 
