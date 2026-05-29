@@ -1116,8 +1116,8 @@
         initProfiles();
         initDragAndDrop();
         initMedia();
-
-        $('#locate-btn').addEventListener('click', initKakaoMap);
+        initKakaoMap();// 페이지 로드시 바로 지도 실행
+    
         $('#reset-btn').addEventListener('click', resetMap);
         $('#save-name-btn').addEventListener('click', saveName);
         $('#clear-name-btn').addEventListener('click', clearName);
