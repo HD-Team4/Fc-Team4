@@ -12,25 +12,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- 카카오맵 API -->
+    <!-- Kakao Maps JavaScript API: 위치 기반 주변 풋살장 검색에 사용합니다. -->
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43d694708c263d79032de6d82668952d&libraries=services" ></script>
 
     <style>
         :root {
             --menu-main-color: #e6002d;
+            --team-blue: #002b5e;
+            --team-red: #e31837;
+            --content-width: 1200px;
+            --section-gap: clamp(50px, 7vw, 80px);
+            --side-padding: clamp(16px, 3vw, 20px);
         }
 
-        /* ── 기본 리셋 & 폰트 ── */
+        /* ── 기본 리셋 & 폰트: 모든 요소가 같은 박스 모델과 글꼴을 사용하게 맞춥니다. ── */
         *, html, body, h1, h2, h3, h4, h5, h6, form, fieldset, img {
             font-family: "Noto Sans KR", sans-serif;
             margin: 0; padding: 0; border: 0; box-sizing: border-box;
         }
         html { scroll-behavior: smooth; }
         body { font-size: 1em; color: #666; -webkit-text-size-adjust: none; }
-        div { display: block; unicode-bidi: isolate; }
 
         /* ── 헤더 ── */
         #header, #pc_version { z-index: 9999 !important; }
@@ -40,9 +41,9 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
         #pc_version .top {
-            max-width: 1200px; margin: 0 auto;
+            max-width: var(--content-width); margin: 0 auto;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; height: 80px;
+            padding: 0 var(--side-padding); height: 80px;
         }
         .main_logo {
             background: url('logo.png') no-repeat left center !important;
@@ -63,13 +64,13 @@
             background: #fff; color: var(--menu-main-color);
         }
 
-        /* ── 섹션 공통 ── */
+        /* ── 섹션 공통: 모든 본문 섹션은 같은 최대 너비와 여백을 공유합니다. ── */
         .custom-section {
-            max-width: 1200px; width: 100%;
-            margin: 80px auto; padding: 0 20px;
+            max-width: var(--content-width); width: 100%;
+            margin: var(--section-gap) auto; padding: 0 var(--side-padding);
         }
         .custom-section h2.kfa-title {
-            font-size: 32px; font-weight: 700; color: #111;
+            font-size: clamp(24px, 3vw, 32px); font-weight: 700; color: #111;
             margin-bottom: 30px; padding-bottom: 15px;
             border-bottom: 2px solid #111;
             display: flex; align-items: center;
@@ -77,27 +78,36 @@
         .custom-section h2.kfa-title::before {
             content: ''; display: inline-block;
             width: 6px; height: 32px;
-            background-color: #e31837; margin-right: 15px;
+            background-color: var(--team-red); margin-right: 15px;
         }
         .custom-box {
             background: #fdfdfd; border: 1px solid #e0e0e0;
-            padding: 50px; border-radius: 12px;
+            padding: clamp(24px, 5vw, 50px); border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
 
         /* ── 조원 소개 ── */
-        .intro-grid { display: flex; gap: 25px; flex-wrap: wrap; }
+        /*
+         * Grid 반응형:
+         * repeat(auto-fit, minmax(...))를 쓰면 화면 폭에 맞춰 카드 열 수가 자동으로 바뀝니다.
+         * 데스크톱은 여러 열, 모바일은 1열로 자연스럽게 줄어듭니다.
+         */
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
         .team-member {
-            flex: 1; min-width: 220px; background: #fff;
+            min-width: 0; background: #fff;
             border: 1px solid #ddd; text-align: center;
             border-radius: 8px; overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;
-            position: relative; /* 배지 배치를 위한 기준점 */
+            position: relative; /* 배지와 왕관을 카드 안에서 배치하기 위한 기준점입니다. */
         }
         .team-member:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
         .team-member .member-img { width: 100%; height: auto; border-bottom: 4px solid #002b5e; display: block; }
         .team-info { padding: 25px; display: flex; flex-direction: column; align-items: center; }
-        .team-info h3 { font-size: 22px; color: #e31837; margin-bottom: 10px; font-weight: bold; }
+        .team-info h3 { font-size: 22px; color: var(--team-red); margin-bottom: 10px; font-weight: bold; }
         .team-info p { font-size: 16px; color: #555; }
         
         /* MVP 투표 배지 스타일 */
@@ -105,7 +115,7 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: linear-gradient(135deg, #e31837 0%, #a01026 100%);
+            background: linear-gradient(135deg, var(--team-red) 0%, #a01026 100%);
             color: #fff;
             font-size: 14px;
             font-weight: 700;
@@ -129,7 +139,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #002b5e;
+            background: var(--team-blue);
             color: #fff !important;
             padding: 8px 16px;
             font-size: 13px;
@@ -144,7 +154,7 @@
             box-shadow: 0 2px 6px rgba(0, 43, 94, 0.2);
         }
         .portfolio-btn:hover {
-            background: #e31837;
+            background: var(--team-red);
             box-shadow: 0 4px 10px rgba(227, 24, 55, 0.3);
             transform: translateY(-2px);
         }
@@ -154,7 +164,7 @@
             position: absolute;
             font-size: 26px;
             font-weight: 900;
-            color: #e31837;
+            color: var(--team-red);
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.2);
             pointer-events: none;
             animation: floatUpAndFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -275,18 +285,24 @@
         .kfa-btn:hover { background: #e31837; box-shadow: 0 4px 10px rgba(227,24,55,0.3); }
 
         /* ── 단체샷 ── */
+        /*
+         * Grid 반응형:
+         * 카드 목록을 Grid로 만들면 줄바꿈과 칸 너비가 일정해져 템플릿이 통일됩니다.
+         */
         .team-shot-list {
-            display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
         }
         .team-shot-card {
-            flex: 1; height: 300px; border-radius: 12px;
+            width: 100%; height: clamp(200px, 24vw, 300px); border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             overflow: hidden; cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
             background-size: cover; background-position: center;
-            min-width: 180px; border: 0; padding: 0;
+            border: 0; padding: 0;
         }
-        .team-shot-1 { background-image: url('shoot1.jpeg'); }
+        .team-shot-1 { background-image: url('shoot1.png'); }
         .team-shot-2 { background-image: url('shoot2.jpeg'); }
         .team-shot-3 { background-image: url('shoot3.jpeg'); }
         .team-shot-4 { background-image: url('shoot4.png'); }
@@ -350,7 +366,7 @@
         }
         .dot.active { background: #e31837; transform: scale(1.2); }
 
-        /* ── 카카오맵 ── */
+        /* ── 1. Geolocation API + Kakao Map: 현재 위치와 주변 풋살장 목록을 보여주는 영역입니다. ── */
         #kakao-map { position: relative; }
         .geo-box { padding: 30px; }
         .geo-status {
@@ -367,6 +383,11 @@
             display: none; background: #e31837; color: #fff; padding: 6px 20px;
             border-radius: 20px; font-size: 15px; font-weight: bold;
         }
+        /*
+         * Grid 반응형:
+         * 지도는 넓게, 장소 목록은 좁게 배치합니다.
+         * 모바일에서는 미디어 쿼리에서 1열로 바뀝니다.
+         */
         .map-grid {
             display: grid; grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
             gap: 20px; align-items: flex-start;
@@ -449,8 +470,20 @@
         .dot-success { background: #27ae60 !important; }
         .dot-error   { background: #e31837 !important; }
 
-        /* ── 포메이션 ── */
+        /* ── 2. Drag and Drop API: 선수를 벤치와 경기장 사이에 끌어 놓는 영역입니다. ── */
         .section-desc { font-size: 16px; color: #555; margin-bottom: 20px; }
+        .intro-vote-desc {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            color: #444;
+            font-weight: 500;
+        }
+        /*
+         * Flexbox 반응형:
+         * 벤치와 경기장을 가로로 놓고, 공간이 부족하면 미디어 쿼리에서 세로 배치로 전환합니다.
+         */
         .formation-container { display: flex; gap: 20px; flex-wrap: wrap; }
         .player-bench {
             width: 150px; background: #fdfdfd; border: 2px dashed #002b5e;
@@ -553,25 +586,23 @@
             opacity: 1;
             animation: goalCelebrationShake 0.6s infinite alternate;
         }
+        .goal-scorer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffd700;
+        }
         
         @keyframes goalCelebrationShake {
             0% { transform: translate(-50%, -50%) scale(1) rotate(-1deg); }
             100% { transform: translate(-50%, -50%) scale(1.02) rotate(1deg); }
         }
 
-        /* ── 방명록 ── */
-        .storage-desc { font-size: 18px; color: #555; margin-bottom: 20px; }
-        .storage-form { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .kfa-input {
-            padding: 14px 20px; font-size: 16px; border: 2px solid #ddd;
-            border-radius: 6px; width: min(350px, 100%);
-            outline: none; transition: border-color 0.3s; color: #333;
-        }
-        .kfa-input:focus { border-color: #002b5e; }
-        .secondary-btn { background: #777; }
-        #greeting-msg { margin-top: 30px; font-size: 24px; color: #e31837; font-weight: bold; }
-
-        /* ── 미디어 ── */
+        /* ── 4. HTML Video / 5. HTML Audio: 홍보영상과 배경음악 플레이어 영역입니다. ── */
+        /*
+         * Grid 반응형:
+         * 영상 카드와 오디오 카드는 같은 템플릿을 사용합니다.
+         * 화면이 좁아지면 자동으로 1열 카드 목록이 됩니다.
+         */
         .media-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 40px;
@@ -589,12 +620,35 @@
         }
         #media-video {
             background: #222;
-            margin-top: 20px;
             object-position: center center;
         }
-        .audio-visual { object-fit: contain; background: #f5f5f5; }
         video, audio { width: 100%; border-radius: 8px; outline: none; }
         #media-audio { height: 40px; }
+        #lyrics-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow-y: auto;
+            text-align: center;
+            border: 1px solid #eee;
+            padding: 18px;
+            border-radius: 8px;
+            background: #222;
+            margin-bottom: 15px;
+            scrollbar-width: none;
+        }
+        #lyrics-container::-webkit-scrollbar { display: none; }
+        #lyrics-container p {
+            font-size: 16px;
+            color: #777;
+            margin: 12px 0;
+            transition: color 0.3s ease, font-size 0.3s ease, transform 0.3s ease;
+        }
+        #lyrics-container p.active {
+            color: #ce0e2d;
+            font-size: 22px;
+            font-weight: 700;
+            transform: scale(1.05);
+        }
 
         /* ── 프리미엄 플로팅 뮤직 플레이어 ── */
         #floating-audio {
@@ -763,32 +817,38 @@
         .footer-links a { color: #ccc; margin: 0 15px; text-decoration: none; }
         .footer-copy { font-size: 14px; color: #aaa; }
 
+        /*
+         * Responsive:
+         * 태블릿 이하에서는 헤더와 주요 레이아웃을 세로 흐름에 맞춰 줄입니다.
+         * 사용자가 확대/축소하지 않아도 버튼과 카드가 화면 밖으로 나가지 않게 합니다.
+         */
         @media (max-width: 768px) {
-            #pc_version .top { height: auto; min-height: 80px; flex-direction: column; gap: 8px; padding: 10px 16px; }
+            #pc_version .top { height: auto; min-height: 80px; flex-direction: column; gap: 8px; padding: 10px var(--side-padding); }
             .main_logo { width: 140px; height: 48px; background-position: center !important; }
             .pc_top_nav .menu { justify-content: center; gap: 4px; }
             .pc_top_nav .menu li a { padding: 7px 10px; font-size: 13px; }
             .contents { padding-top: 128px; }
             .news_slide { height: 360px; }
-            .custom-section { margin: 50px auto; padding: 0 16px; }
+            .custom-section { margin: 50px auto; padding: 0 var(--side-padding); }
             .custom-section h2.kfa-title { font-size: 24px; margin-bottom: 20px; }
             .custom-section h2.kfa-title::before { height: 24px; }
-            .custom-box, .geo-box { padding: 24px; }
-            .team-shot-card { flex-basis: calc(50% - 10px); height: 220px; min-width: 140px; }
-            .team-member { flex-basis: calc(50% - 13px); min-width: 180px; }
+            .team-shot-list, .intro-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .map-grid { grid-template-columns: 1fr; }
             .place-panel { max-height: 300px; }
             .formation-container { flex-direction: column; }
             .player-bench { width: 100%; min-height: auto; flex-direction: row; flex-wrap: wrap; justify-content: center; }
             .player-bench h3 { width: 100%; text-align: center; }
             .football-pitch { width: 100%; min-width: 0; height: 360px; }
-            .kfa-input, .storage-form .kfa-btn { width: 100%; justify-content: center; }
             #floating-audio { left: 16px; right: 16px; bottom: 12px; justify-content: center; }
             #floating-audio audio { width: 100%; max-width: 220px; }
         }
 
+        /*
+         * Responsive:
+         * 모바일에서는 반복 카드들을 1열로 고정해 텍스트 겹침과 터치 영역 부족을 막습니다.
+         */
         @media (max-width: 480px) {
-            .team-shot-card, .team-member { flex-basis: 100%; }
+            .team-shot-list, .intro-grid, .media-grid { grid-template-columns: 1fr; }
             .team-shot-card { height: 200px; }
             .slider-controls { bottom: 16px; gap: 12px; }
             .news_slide { height: 280px; }
@@ -811,10 +871,9 @@
                 <nav class="pc_top_nav">
                     <ul class="menu">
                         <li><a href="#team-shots">단체샷</a></li>
-                        <li><a href="#intro">조 소개</a></li>
+                        <li><a href="#intro">조원 소개 & MVP 투표</a></li>
                         <li><a href="#geolocation">위치 정보</a></li>
-                        <li><a href="#drag-drop">드래그 앤 드롭</a></li>
-                        <li><a href="#web-storage">로컬 저장소</a></li>
+                        <li><a href="#drag-drop">축구 포메이션</a></li>
                         <li><a href="#media">미디어</a></li>
                     </ul>
                 </nav>
@@ -846,7 +905,7 @@
         <div id="team-shots" class="custom-section">
             <h2 class="kfa-title">우리 조 단체샷</h2>
             <div class="team-shot-list">
-                <button class="team-shot-card team-shot-1" type="button" data-image-src="shoot1.jpeg" aria-label="단체샷 1 크게 보기"></button>
+                <button class="team-shot-card team-shot-1" type="button" data-image-src="shoot1.png" aria-label="단체샷 1 크게 보기"></button>
                 <button class="team-shot-card team-shot-2" type="button" data-image-src="shoot2.jpeg" aria-label="단체샷 2 크게 보기"></button>
                 <button class="team-shot-card team-shot-3" type="button" data-image-src="shoot3.jpeg" aria-label="단체샷 3 크게 보기"></button>
                 <button class="team-shot-card team-shot-4" type="button" data-image-src="shoot4.png" aria-label="단체샷 4 크게 보기"></button>
@@ -859,14 +918,14 @@
             <img class="modal-content" id="modalImage" alt="선택한 단체샷">
         </div>
 
-        <!-- 2. 조 소개 -->
+        <!-- 3. Web Storage API: MVP 투표수를 브라우저 localStorage에 저장합니다. -->
         <div id="intro" class="custom-section">
             <h2 class="kfa-title">조원 소개 &amp; MVP 투표</h2>
-            <p class="section-desc" style="margin-bottom: 25px; font-weight: 500; color: #444; display: flex; align-items: center; gap: 8px;">
+            <p class="section-desc intro-vote-desc">
                 🏆 <strong>당신의 MVP를 뽑아주세요!</strong> 사진을 클릭하면 투표수가 증가합니다.
             </p>
             <div class="intro-grid">
-                <article class="team-member" id="member-card-1" data-profile-url="https://dev-anniee.github.io/">
+                <article class="team-member" id="member-card-1">
                     <div class="crown-badge">👑</div>
                     <div class="mvp-badge">🏆 <span id="votes-1">0</span>표</div>
                     <img src="member1.png" alt="안정민" class="member-img">
@@ -876,7 +935,7 @@
                         <a href="https://dev-anniee.github.io/" target="_blank" rel="noopener" class="portfolio-btn">포트폴리오 보기 🔗</a>
                     </div>
                 </article>
-                <article class="team-member" id="member-card-2" data-profile-url="https://chaeyeonkong.github.io/">
+                <article class="team-member" id="member-card-2">
                     <div class="crown-badge">👑</div>
                     <div class="mvp-badge">🏆 <span id="votes-2">0</span>표</div>
                     <img src="member2.png" alt="공채연" class="member-img">
@@ -886,7 +945,7 @@
                         <a href="https://chaeyeonkong.github.io/" target="_blank" rel="noopener" class="portfolio-btn">포트폴리오 보기 🔗</a>
                     </div>
                 </article>
-                <article class="team-member" id="member-card-3" data-profile-url="https://hongjunpyo0222.github.io/">
+                <article class="team-member" id="member-card-3">
                     <div class="crown-badge">👑</div>
                     <div class="mvp-badge">🏆 <span id="votes-3">0</span>표</div>
                     <img src="member3.png" alt="홍준표" class="member-img">
@@ -896,7 +955,7 @@
                         <a href="https://hongjunpyo0222.github.io/" target="_blank" rel="noopener" class="portfolio-btn">포트폴리오 보기 🔗</a>
                     </div>
                 </article>
-                <article class="team-member" id="member-card-4" data-profile-url="https://ui-chan.github.io/WebChan/">
+                <article class="team-member" id="member-card-4">
                     <div class="crown-badge">👑</div>
                     <div class="mvp-badge">🏆 <span id="votes-4">0</span>표</div>
                     <img src="member4.png" alt="안의찬" class="member-img">
@@ -909,7 +968,7 @@
             </div>
         </div>
 
-        <!-- 3. 카카오맵 -->
+        <!-- 1. Geolocation API: 현재 위치를 가져와 주변 풋살장/축구장을 검색합니다. -->
         <div id="geolocation" class="custom-section">
             <h2 class="kfa-title">위치 정보 &amp; 주변 풋살장 찾기</h2>
             <div class="custom-box geo-box">
@@ -950,9 +1009,9 @@
             </div>
         </div>
 
-        <!-- 4. Drag & Drop -->
+        <!-- 2. Drag and Drop API: 선수 아이콘을 드래그해서 경기장에 배치합니다. -->
         <div id="drag-drop" class="custom-section">
-            <h2 class="kfa-title">축구 포메이션 (Drag &amp; Drop API)</h2>
+            <h2 class="kfa-title">축구 포메이션</h2>
             <p class="section-desc">선수들을 드래그하여 경기장 위 원하는 위치에 배치해보세요!</p>
             <div class="formation-container">
                 <div class="player-bench" id="player-bench">
@@ -981,26 +1040,13 @@
             </div>
         </div>
 
-        <!-- 5. Web Storage -->
-        <div id="web-storage" class="custom-section">
-            <h2 class="kfa-title">방명록 (Web Storage API)</h2>
-            <div class="custom-box">
-                <p class="storage-desc">방문자 이름을 입력해 두시면 로컬 스토리지에 저장되어 브라우저가 기억합니다.</p>
-                <div class="storage-form">
-                    <input type="text" id="username" class="kfa-input" placeholder="이름을 입력하세요">
-                    <button class="kfa-btn" id="save-name-btn" type="button">저장하기</button>
-                    <button class="kfa-btn secondary-btn" id="clear-name-btn" type="button">초기화</button>
-                </div>
-                <div id="greeting-msg"></div>
-            </div>
-        </div>
-
-        <!-- 6. 미디어 -->
+        <!-- 4. HTML Video / 5. HTML Audio: 브라우저 기본 미디어 태그로 영상과 오디오를 재생합니다. -->
         <div id="media" class="custom-section">
-            <h2 class="kfa-title">미디어 (Audio &amp; Video API)</h2>
+            <h2 class="kfa-title">미디어</h2>
             <div class="media-grid">
                 <div class="media-box">
                     <h3>홍보 영상</h3>
+                    <!-- 4. HTML Video 적용 위치 -->
                     <video id="media-video" class="media-visual" controls>
                         <source src="tea4_promo_video.mp4" type="video/mp4">
                         브라우저가 비디오 태그를 지원하지 않습니다.
@@ -1008,7 +1054,8 @@
                 </div>
                 <div class="media-box">
                     <h3>배경 음악</h3>
-                    <img class="media-visual audio-visual" src="members.png" alt="팀원 경기 장면 모음">
+                    <div id="lyrics-container"></div>
+                    <!-- 5. HTML Audio 적용 위치: 가사 싱크는 이 오디오 시간을 기준으로 맞춥니다. -->
                     <audio id="media-audio" controls>
                         <source src="ssg_song.mp3" type="audio/mpeg">
                         브라우저가 오디오 태그를 지원하지 않습니다.
@@ -1032,7 +1079,7 @@
         </div>
     </footer>
 
-    <!-- 플로팅 BGM (프리미엄 미니 뮤직 플레이어 위젯) -->
+    <!-- 5. HTML Audio 적용 위치: 사이트 하단 플로팅 BGM 플레이어입니다. -->
     <div id="floating-audio" class="premium-music-player">
         <audio id="bgm" loop>
             <source src="Song.mp3" type="audio/mpeg">
@@ -1052,12 +1099,13 @@
         </div>
     </div>
 
+    <script src="lrcRawData.js"></script>
     <script>
     /* ── 공통 DOM 선택 함수 ── */
     const $ = (selector) => document.querySelector(selector);
     const $$ = (selector) => document.querySelectorAll(selector);
 
-    /* ── 카카오맵 / Geolocation API ── */
+    /* ── 1. Geolocation API: 현재 위치를 가져오고 Kakao Map에 주변 풋살장/축구장을 표시합니다. ── */
     let kakaoMap = null;
     let myMarker = null;
     let placeMarkers = [];
@@ -1274,7 +1322,7 @@
         });
     };
 
-    /* ── Drag and Drop & Physics Engine ── */
+    /* ── 2. Drag and Drop API: 선수 아이콘을 경기장에 놓고 간단한 물리 효과를 적용합니다. ── */
     let draggedOffsetX = 0;
     let draggedOffsetY = 0;
     
@@ -1354,7 +1402,7 @@
 
         const celeb = document.createElement('div');
         celeb.className = 'goal-celebration';
-        celeb.innerHTML = `⚽ GOAL!!!<br><span style="font-size: 20px; font-weight: bold; color: #ffd700;">${playerName} 득점!</span>`;
+        celeb.innerHTML = `⚽ GOAL!!!<br><span class="goal-scorer">${playerName} 득점!</span>`;
         pitch.appendChild(celeb);
 
         // 스케일 및 오파시티 페이드 인
@@ -1517,26 +1565,6 @@
         requestAnimationFrame(updatePhysics);
     };
 
-    /* ── Web Storage API ── */
-    const displayGreeting = () => {
-        const savedName = localStorage.getItem('teamVisitorName');
-        $('#greeting-msg').innerText = savedName ? `환영합니다, ${savedName}님! 홈페이지 방문을 진심으로 환영합니다.` : '';
-    };
-
-    const saveName = () => {
-        const usernameInput = $('#username');
-        const name = usernameInput.value.trim();
-        if (!name) { alert('이름을 입력해주세요.'); return; }
-        localStorage.setItem('teamVisitorName', name);
-        displayGreeting();
-    };
-
-    const clearName = () => {
-        localStorage.removeItem('teamVisitorName');
-        $('#username').value = '';
-        displayGreeting();
-    };
-
     /* ── 슬라이더 ── */
     let slideIndex = 0;
     let slideTimer = null;
@@ -1596,24 +1624,19 @@
     const initProfiles = () => {
         // 왕관을 최고 득표자 카드에 씌워주는 함수 정의
         const updateCrowns = () => {
-            const votes = [1, 2, 3, 4].map((id) => {
-                return {
-                    id: id,
-                    count: parseInt($(`#votes-${id}`).textContent || '0', 10)
-                };
-            });
+            const votes = [1, 2, 3, 4].map((id) => ({
+                id,
+                count: Number($(`#votes-${id}`).textContent || 0)
+            }));
             const maxVotes = Math.max(...votes.map((v) => v.count));
             
-            votes.forEach((v) => {
-                const card = $(`#member-card-${v.id}`);
+            votes.forEach(({ id, count }) => {
+                const card = $(`#member-card-${id}`);
                 const crown = card.querySelector('.crown-badge');
-                if (maxVotes > 0 && v.count === maxVotes) {
-                    crown.classList.add('active');
-                    card.classList.add('spotlight');
-                } else {
-                    crown.classList.remove('active');
-                    card.classList.remove('spotlight');
-                }
+                const isTopVoted = maxVotes > 0 && count === maxVotes;
+
+                crown.classList.toggle('active', isTopVoted);
+                card.classList.toggle('spotlight', isTopVoted);
             });
         };
 
@@ -1625,7 +1648,7 @@
             const savedVotes = localStorage.getItem(`mvp_votes_member_${memberId}`) || '0';
             $(`#votes-${memberId}`).textContent = savedVotes;
 
-            // 2. 카드 클릭 시 MVP 투표 처리 (포트폴리오 버튼 클릭 시 제외)
+            // 3. Web Storage API: 클릭한 MVP 투표수를 localStorage에 저장합니다.
             member.addEventListener('click', (event) => {
                 // 클릭된 대상이 포트폴리오 버튼이거나 그 내부 요소인 경우 투표를 진행하지 않음
                 if (event.target.closest('.portfolio-btn')) {
@@ -1636,7 +1659,7 @@
                 event.preventDefault();
 
                 // 투표수 증가
-                let currentVotes = parseInt(localStorage.getItem(`mvp_votes_member_${memberId}`) || '0', 10);
+                let currentVotes = Number(localStorage.getItem(`mvp_votes_member_${memberId}`) || 0);
                 currentVotes += 1;
                 localStorage.setItem(`mvp_votes_member_${memberId}`, currentVotes);
 
@@ -1676,13 +1699,71 @@
 
         // 3. 포트폴리오 바로가기 버튼 클릭 시 이벤트 버블링(부모 클릭) 차단
         $$('.portfolio-btn').forEach((btn) => {
-            btn.addEventListener('click', (event) => {
-                event.stopPropagation();
-            });
+            btn.addEventListener('click', (event) => event.stopPropagation());
         });
     };
 
-    /* ── 프리미엄 뮤직 플레이어 컨트롤 ── */
+    /* ── 5. HTML Audio: LRC 가사 텍스트를 시간과 문장 목록으로 바꿉니다. ── */
+    const parseLRC = (lrcText) => lrcText.split('\n').reduce((result, line) => {
+        const match = line.match(/\[(\d+):(\d+)\.(\d+)\](.*)/);
+        if (!match) return result;
+
+        const minutes = parseInt(match[1], 10);
+        const seconds = parseInt(match[2], 10);
+        const milliseconds = parseInt(match[3], 10);
+        const text = match[4].trim();
+
+        if (text) {
+            result.push({
+                time: minutes * 60 + seconds + milliseconds / 100,
+                text
+            });
+        }
+
+        return result;
+    }, []);
+
+    /* ── 5. HTML Audio: 오디오 currentTime에 맞춰 현재 가사를 강조합니다. ── */
+    const setupLyricsSync = (mediaAudio, lyricsContainer) => {
+        if (!mediaAudio || !lyricsContainer) return;
+
+        const lyricsData = parseLRC(window.lrcRawData || '');
+        let lastActiveIndex = -1;
+
+        lyricsData.forEach((item, index) => {
+            const p = document.createElement('p');
+            p.innerText = item.text;
+            p.id = `lyric-${index}`;
+            lyricsContainer.appendChild(p);
+        });
+
+        mediaAudio.addEventListener('timeupdate', () => {
+            const currentTime = mediaAudio.currentTime;
+            let activeIndex = -1;
+
+            for (let i = 0; i < lyricsData.length; i++) {
+                if (currentTime >= lyricsData[i].time) {
+                    activeIndex = i;
+                } else {
+                    break;
+                }
+            }
+
+            if (activeIndex !== lastActiveIndex && activeIndex !== -1) {
+                lyricsContainer.querySelectorAll('p').forEach((p) => p.classList.remove('active'));
+
+                const currentLyricElement = document.getElementById(`lyric-${activeIndex}`);
+                if (currentLyricElement) {
+                    currentLyricElement.classList.add('active');
+                    currentLyricElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                lastActiveIndex = activeIndex;
+            }
+        });
+    };
+
+    /* ── 4. HTML Video / 5. HTML Audio: 미디어 재생 상태와 플로팅 BGM을 제어합니다. ── */
     const initMedia = () => {
         const bgm = document.getElementById('bgm');
         const player = document.getElementById('floating-audio');
@@ -1691,6 +1772,10 @@
         const playBtn = document.getElementById('play-pause-btn');
         const progressBar = document.getElementById('progress-bar');
         const progressContainer = document.getElementById('progress-container');
+        const mediaAudio = document.getElementById('media-audio');
+        const lyricsContainer = document.getElementById('lyrics-container');
+
+        setupLyricsSync(mediaAudio, lyricsContainer);
 
         if (!bgm || !player) return;
 
@@ -1757,7 +1842,6 @@
 
     /* ── 초기화 ── */
     document.addEventListener('DOMContentLoaded', () => {
-        displayGreeting();
         initSlider();
         initModal();
         initProfiles();
@@ -1765,8 +1849,6 @@
         initMedia();
         initKakaoMap(); // 페이지 로드 시 자동으로 내 위치 + 풋살장 표시
 
-        $('#save-name-btn').addEventListener('click', saveName);
-        $('#clear-name-btn').addEventListener('click', clearName);
     });
     </script>
 </body>
